@@ -982,7 +982,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 470161348}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.5, y: 1.15, z: 1.5}
+  m_LocalPosition: {x: 0.5, y: 1.15, z: 0.5}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
   - {fileID: 616924009}
@@ -1003,6 +1003,7 @@ MonoBehaviour:
   timeBetweenMoves: 0.3333
   interpolationSpeed: 10
   desiredPosition: {x: 0, y: 0, z: 0}
+  labyrinth: {fileID: 1714564926}
   playerCurrentRotation: 0
 --- !u!1 &534669902
 GameObject:
@@ -1103,7 +1104,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh4072
+  m_Name: pb_Mesh4076
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -1628,7 +1629,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh4114
+  m_Name: pb_Mesh4112
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -2151,7 +2152,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh4060
+  m_Name: pb_Mesh4064
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -2311,12 +2312,56 @@ Mesh:
   m_MeshMetrics[0]: 1
   m_MeshMetrics[1]: 1
   m_MeshOptimized: 0
+--- !u!1 &1714564925
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1714564927}
+  - component: {fileID: 1714564926}
+  m_Layer: 0
+  m_Name: Labyrinth
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1714564926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1714564925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb489ea54c7445e43ab437da0399abd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathLength: 8
+  wallPrefab: {fileID: 4199613171790390, guid: a53780751c60ab54c982303eb8a9eee9, type: 2}
+  floorPrefab: {fileID: 4670837336010908, guid: 9c0f1551c887e924099aa72c30ecbc3b,
+    type: 2}
+--- !u!4 &1714564927
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1714564925}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1723044645
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh4170
+  m_Name: pb_Mesh4126
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2

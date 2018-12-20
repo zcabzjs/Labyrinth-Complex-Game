@@ -22,14 +22,6 @@ public class LabyrinthNavigation : MonoBehaviour {
 
 
         labyrinthArray = new char[width, length];
-        for(int i = 0; i < width; i++)
-        {
-            for(int j = 0; j < length; j++)
-            {
-                labyrinthArray[i, j] = 'x';
-            }
-        }
-
         GeneratePath();
 
         /*string array = "";
@@ -56,6 +48,17 @@ public class LabyrinthNavigation : MonoBehaviour {
         }
 
 	}
+
+    private void InitialiseLabyrinth()
+    {
+        for (int i = 0; i < labyrinthArray.GetLength(0); i++)
+        {
+            for (int j = 0; j < labyrinthArray.GetLength(1); j++)
+            {
+                labyrinthArray[i, j] = 'x';
+            }
+        }
+    }
 	private bool IsValidForGeneration(int x, int y)
     {
         return IsValid(x, y) && !IsEmpty(x, y);
@@ -81,65 +84,85 @@ public class LabyrinthNavigation : MonoBehaviour {
 
     private void GeneratePath()
     {
-        int[] currentPoint = new int[2] { 0, 0 };
+        int[] startingPoint = new int[2] { 0, 0 };
+        
         int currentDirection = 2;
-        labyrinthArray[currentPoint[0], currentPoint[1]] = 'o';
-        for(int i = 0; i < pathLength; i++)
+        
+        bool pathGenerated = false;
+        while (!pathGenerated)
         {
-            bool blockGenerated = false;
-            while (!blockGenerated)
+            InitialiseLabyrinth();
+            int[] currentPoint = new int[2];
+            currentPoint[0] = startingPoint[0];
+            currentPoint[1] = startingPoint[1];
+            labyrinthArray[currentPoint[0], currentPoint[1]] = 'o';
+            for (int i = 0; i < pathLength; i++)
             {
-                int direction = GenerateRandomDirection(currentDirection);
-                switch (direction)
+                bool blockGenerated = false;
+                while (!blockGenerated)
                 {
-                    case 0: 
-                        if(IsValidForGeneration(currentPoint[0], currentPoint[1] - 2))
-                        {
-                            labyrinthArray[currentPoint[0], currentPoint[1] - 2] = 'o';
-                            labyrinthArray[currentPoint[0], currentPoint[1] - 1] = 'o';
-                            blockGenerated = true;
-                            currentPoint[1] = currentPoint[1] - 2;
-                        }
-                        break;
-                    case 1:
-                        if (IsValidForGeneration(currentPoint[0] + 2, currentPoint[1]))
-                        {
-                            labyrinthArray[currentPoint[0] + 2, currentPoint[1]] = 'o';
-                            labyrinthArray[currentPoint[0] + 1, currentPoint[1]] = 'o';
-                            blockGenerated = true;
-                            currentPoint[0] = currentPoint[0] + 2;
-                        }
-                        break;
-                    case 2:
-                        if (IsValidForGeneration(currentPoint[0], currentPoint[1] + 2))
-                        {
-                            labyrinthArray[currentPoint[0], currentPoint[1] + 2] = 'o';
-                            labyrinthArray[currentPoint[0], currentPoint[1] + 1] = 'o';
-                            blockGenerated = true;
-                            currentPoint[1] = currentPoint[1] + 2;
-                        }
-                        break;
-                    case 3:
-                        if (IsValidForGeneration(currentPoint[0] - 2, currentPoint[1]))
-                        {
-                            labyrinthArray[currentPoint[0] - 2, currentPoint[1]] = 'o';
-                            labyrinthArray[currentPoint[0] - 1, currentPoint[1]] = 'o';
-                            blockGenerated = true;
-                            currentPoint[0] = currentPoint[0] - 2;
-                        }
-                        break;
-                    default:
-                        Debug.Log("Something wrong with the directions during path generation.");
-                        break;
+                    int direction = GenerateRandomDirection(currentDirection);
+                    switch (direction)
+                    {
+                        case 0:
+                            if (IsValidForGeneration(currentPoint[0], currentPoint[1] - 2))
+                            {
+                                labyrinthArray[currentPoint[0], currentPoint[1] - 2] = 'o';
+                                labyrinthArray[currentPoint[0], currentPoint[1] - 1] = 'o';
+                                blockGenerated = true;
+                                currentPoint[1] = currentPoint[1] - 2;
+                            }
+                            break;
+                        case 1:
+                            if (IsValidForGeneration(currentPoint[0] + 2, currentPoint[1]))
+                            {
+                                labyrinthArray[currentPoint[0] + 2, currentPoint[1]] = 'o';
+                                labyrinthArray[currentPoint[0] + 1, currentPoint[1]] = 'o';
+                                blockGenerated = true;
+                                currentPoint[0] = currentPoint[0] + 2;
+                            }
+                            break;
+                        case 2:
+                            if (IsValidForGeneration(currentPoint[0], currentPoint[1] + 2))
+                            {
+                                labyrinthArray[currentPoint[0], currentPoint[1] + 2] = 'o';
+                                labyrinthArray[currentPoint[0], currentPoint[1] + 1] = 'o';
+                                blockGenerated = true;
+                                currentPoint[1] = currentPoint[1] + 2;
+                            }
+                            break;
+                        case 3:
+                            if (IsValidForGeneration(currentPoint[0] - 2, currentPoint[1]))
+                            {
+                                labyrinthArray[currentPoint[0] - 2, currentPoint[1]] = 'o';
+                                labyrinthArray[currentPoint[0] - 1, currentPoint[1]] = 'o';
+                                blockGenerated = true;
+                                currentPoint[0] = currentPoint[0] - 2;
+                            }
+                            break;
+                        default:
+                            Debug.Log("Something wrong with the directions during path generation.");
+                            break;
+                    }
                 }
+                if( i == pathLength - 1)
+                {
+                    pathGenerated = true;
+                }
+                if (!IsValidForGeneration(currentPoint[0], currentPoint[1] + 2) && !IsValidForGeneration(currentPoint[0] - 2, currentPoint[1]) && !IsValidForGeneration(currentPoint[0], currentPoint[1] + 2) && !IsValidForGeneration(currentPoint[0], currentPoint[1] - 2))
+                {
+                    break;
+                }
+                
             }
         }
+        
     }
 
     // 0 is N, 1 is E, 2 is S, 3 is W
     private int GenerateRandomDirection(int currentDirection)
     {
-        if(UnityEngine.Random.value > 0.9)
+        if(UnityEngine.Random.value > 0.8)
         {
             return currentDirection;
         }
