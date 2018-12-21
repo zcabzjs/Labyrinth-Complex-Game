@@ -5,11 +5,11 @@ using UnityEngine;
 public class GridPoint : MonoBehaviour {
 
     public int X { get; set; }
-    public int Y { get; set; }
+    public int Z { get; set; }
 
-    public GridPoint(int x, int y)
+    public GridPoint(int x, int z)
     {
         this.X = x;
-        this.Y = y;
+        this.Z = z;
     }
 }

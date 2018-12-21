@@ -95,6 +95,7 @@ public class PlayerMovement : MonoBehaviour {
                 {
                     FixPlayerRotation(direction);
                     desiredPosition += Vector3.forward;
+                    labyrinth.VisitedGrid(desiredPosition);
                 }
                 break;
             case 1:
@@ -102,6 +103,7 @@ public class PlayerMovement : MonoBehaviour {
                 {
                     FixPlayerRotation(direction);
                     desiredPosition += Vector3.right;
+                    labyrinth.VisitedGrid(desiredPosition);
                 }
                 break;
             case 2:
@@ -109,6 +111,7 @@ public class PlayerMovement : MonoBehaviour {
                 {
                     FixPlayerRotation(direction);
                     desiredPosition += Vector3.back;
+                    labyrinth.VisitedGrid(desiredPosition);
                 }         
                 break;
             case 3:
@@ -116,6 +119,7 @@ public class PlayerMovement : MonoBehaviour {
                 {
                     FixPlayerRotation(direction);
                     desiredPosition += Vector3.left;
+                    labyrinth.VisitedGrid(desiredPosition);
                 }
                 break;
             default:

@@ -7,7 +7,7 @@ public class LabyrinthNavigation : MonoBehaviour {
 
     public char[,] labyrinthArray;
 
-    public LabyrinthGrid[,] labyrinthGrids;
+    
 
     public int pathLength = 8;
 
@@ -18,7 +18,12 @@ public class LabyrinthNavigation : MonoBehaviour {
 
     public GridPoint startingPoint;
 
+    // Note to self: labyrinthGrids follow a typical array coordinate, so (1,0) is actually 1 on Z axis, and 0 on X axis
+    public LabyrinthGrid[,] labyrinthGrids;
+
+    // Note to self: Waypoints follow the Unity coordinates, so (0,1) is actually 0 on X axis and 1 on Z axis
     List<GridPoint> wayPoints;
+
     // Use this for initialization
     void Start () {
 
@@ -33,17 +38,17 @@ public class LabyrinthNavigation : MonoBehaviour {
         GeneratePath();
         GenerateLabyrinth();
 
-        /*string array = "";
-        for(int i = 0; i < 7; i++)
+        string array = "";
+        for(int i = width-1; i >=0; i--)
         {
-            for(int j = 0; j < 7; j++)
+            for(int j = 0; j < length - 1; j++)
             {
                 array += labyrinthArray[i, j];
             }
             array += '\n';
         }
-        print(array);*/
-        for (int i = 0; i < width; i++)
+        print(array);
+        /*for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < length; j++)
             {
@@ -55,7 +60,7 @@ public class LabyrinthNavigation : MonoBehaviour {
 
                 }
             }
-        }
+        }*/
 
         for (int i = -1; i <= width; i++)
         {
@@ -115,8 +120,8 @@ public class LabyrinthNavigation : MonoBehaviour {
         while (!pathGenerated)
         {
             InitialiseLabyrinth();
-            currentPoint = new GridPoint(startingPoint.X, startingPoint.Y);
-            labyrinthArray[currentPoint.X, currentPoint.Y] = 'o';
+            currentPoint = new GridPoint(startingPoint.Z, startingPoint.X);
+            labyrinthArray[currentPoint.Z, currentPoint.X] = 'o';
             wayPoints = new List<GridPoint>();
             wayPoints.Add(startingPoint);
             for (int i = 0; i < pathLength; i++)
@@ -128,53 +133,53 @@ public class LabyrinthNavigation : MonoBehaviour {
                     switch (direction)
                     {
                         case 0:
-                            if (IsValidForGeneration(currentPoint.X, currentPoint.Y - 2))
+                            if (IsValidForGeneration(currentPoint.X, currentPoint.Z - 2))
                             {
-                                labyrinthArray[currentPoint.X, currentPoint.Y - 1] = 'o';
-                                labyrinthArray[currentPoint.X, currentPoint.Y - 2] = 'o';
+                                labyrinthArray[currentPoint.X, currentPoint.Z - 1] = 'o';
+                                labyrinthArray[currentPoint.X, currentPoint.Z - 2] = 'o';
                                 
-                                wayPoints.Add(new GridPoint(currentPoint.X, currentPoint.Y - 1));
-                                wayPoints.Add(new GridPoint(currentPoint.X, currentPoint.Y - 2));
+                                wayPoints.Add(new GridPoint(currentPoint.Z - 1, currentPoint.X));
+                                wayPoints.Add(new GridPoint(currentPoint.Z - 2, currentPoint.X));
 
                                 blockGenerated = true;
-                                currentPoint.Y = currentPoint.Y - 2;
+                                currentPoint.Z = currentPoint.Z - 2;
                                 
                             }
                             break;
                         case 1:
-                            if (IsValidForGeneration(currentPoint.X + 2, currentPoint.Y))
+                            if (IsValidForGeneration(currentPoint.X + 2, currentPoint.Z))
                             {
-                                labyrinthArray[currentPoint.X + 1, currentPoint.Y] = 'o';
-                                labyrinthArray[currentPoint.X + 2, currentPoint.Y] = 'o';
+                                labyrinthArray[currentPoint.X + 1, currentPoint.Z] = 'o';
+                                labyrinthArray[currentPoint.X + 2, currentPoint.Z] = 'o';
 
-                                wayPoints.Add(new GridPoint(currentPoint.X + 1, currentPoint.Y));
-                                wayPoints.Add(new GridPoint(currentPoint.X + 2, currentPoint.Y));
+                                wayPoints.Add(new GridPoint(currentPoint.Z, currentPoint.X + 1));
+                                wayPoints.Add(new GridPoint(currentPoint.Z, currentPoint.X + 2));
 
                                 blockGenerated = true;
                                 currentPoint.X = currentPoint.X + 2;
                             }
                             break;
                         case 2:
-                            if (IsValidForGeneration(currentPoint.X, currentPoint.Y + 2))
+                            if (IsValidForGeneration(currentPoint.X, currentPoint.Z + 2))
                             {
-                                labyrinthArray[currentPoint.X, currentPoint.Y + 1] = 'o';
-                                labyrinthArray[currentPoint.X, currentPoint.Y + 2] = 'o';
+                                labyrinthArray[currentPoint.X, currentPoint.Z + 1] = 'o';
+                                labyrinthArray[currentPoint.X, currentPoint.Z + 2] = 'o';
 
-                                wayPoints.Add(new GridPoint(currentPoint.X, currentPoint.Y + 1));
-                                wayPoints.Add(new GridPoint(currentPoint.X, currentPoint.Y + 2));
+                                wayPoints.Add(new GridPoint(currentPoint.Z + 1, currentPoint.X));
+                                wayPoints.Add(new GridPoint(currentPoint.Z + 2, currentPoint.X));
 
                                 blockGenerated = true;
-                                currentPoint.Y = currentPoint.Y + 2;
+                                currentPoint.Z = currentPoint.Z + 2;
                             }
                             break;
                         case 3:
-                            if (IsValidForGeneration(currentPoint.X - 2, currentPoint.Y))
+                            if (IsValidForGeneration(currentPoint.X - 2, currentPoint.Z))
                             {
-                                labyrinthArray[currentPoint.X - 1, currentPoint.Y] = 'o';
-                                labyrinthArray[currentPoint.X - 2, currentPoint.Y] = 'o';
+                                labyrinthArray[currentPoint.X - 1, currentPoint.Z] = 'o';
+                                labyrinthArray[currentPoint.X - 2, currentPoint.Z] = 'o';
 
-                                wayPoints.Add(new GridPoint(currentPoint.X - 1, currentPoint.Y));
-                                wayPoints.Add(new GridPoint(currentPoint.X - 2, currentPoint.Y));
+                                wayPoints.Add(new GridPoint(currentPoint.Z, currentPoint.X - 1));
+                                wayPoints.Add(new GridPoint(currentPoint.Z, currentPoint.X - 2));
 
                                 blockGenerated = true;
                                 currentPoint.X = currentPoint.X - 2;
@@ -189,7 +194,7 @@ public class LabyrinthNavigation : MonoBehaviour {
                 {
                     pathGenerated = true;
                 }
-                if (!IsValidForGeneration(currentPoint.X, currentPoint.Y + 2) && !IsValidForGeneration(currentPoint.X - 2, currentPoint.Y) && !IsValidForGeneration(currentPoint.X, currentPoint.Y + 2) && !IsValidForGeneration(currentPoint.X, currentPoint.Y - 2))
+                if (!IsValidForGeneration(currentPoint.X, currentPoint.Z + 2) && !IsValidForGeneration(currentPoint.X - 2, currentPoint.Z) && !IsValidForGeneration(currentPoint.X, currentPoint.Z + 2) && !IsValidForGeneration(currentPoint.X, currentPoint.Z - 2))
                 {
                     break;
                 }
@@ -218,40 +223,56 @@ public class LabyrinthNavigation : MonoBehaviour {
         // TODO: Remember to fix positionToCheckZ to be Math.Floor when using real grid
         int y = (int)Math.Floor(positionToCheck.x);
         int x = (int)Math.Floor(positionToCheck.z);
-        return IsValid(x, y) && IsEmpty(x, y);
+
+        // Check if the grid was already visited as well
+        return IsValid(x, y) && IsEmpty(x, y) && !labyrinthGrids[x,y].visited;
     }
 
     public LabyrinthGrid labyrinthGridPrefab;
 
     private void GenerateLabyrinth()
     {
-        //string waypoints = "";
+        string waypoints = "";
         for(int i = 0; i < wayPoints.Count; i++)
         {
-            
-            //waypoints += wayPoints[i].X.ToString() + ',' + wayPoints[i].Y.ToString() + '\n';
-            
-            labyrinthGrids[wayPoints[i].X, wayPoints[i].Y] = Instantiate(labyrinthGridPrefab, new Vector3(wayPoints[i].Y, 1, wayPoints[i].X), Quaternion.identity) as LabyrinthGrid;
+            int direction = 0;
+            waypoints += wayPoints[i].X.ToString() + ',' + wayPoints[i].Z.ToString() + '\n';
             if(i > 0)
             {
-                if(wayPoints[i].X == wayPoints[i-1].X + 1)
+                if(wayPoints[i].Z == wayPoints[i-1].Z + 1)
                 {
-                    labyrinthGrids[wayPoints[i].X, wayPoints[i].Y].direction = 1;
+                    direction = 0;                    
                 }
-                else if(wayPoints[i].X == wayPoints[i - 1].X - 1)
+                else if(wayPoints[i].Z == wayPoints[i - 1].Z - 1)
                 {
-                    labyrinthGrids[wayPoints[i].X, wayPoints[i].Y].direction = 3;
+                    direction = 2;
                 }
-                else if(wayPoints[i].Y == wayPoints[i - 1].Y + 1)
+                else if(wayPoints[i].X == wayPoints[i - 1].X + 1)
                 {
-                    labyrinthGrids[wayPoints[i].X, wayPoints[i].Y].direction = 2;
+                    direction = 1;
                 }
-                else if (wayPoints[i].Y == wayPoints[i - 1].Y - 1)
+                else if (wayPoints[i].X == wayPoints[i - 1].X - 1)
                 {
-                    labyrinthGrids[wayPoints[i].X, wayPoints[i].Y].direction = 0;
+                    direction = 3;
                 }
+                
+            }
+            labyrinthGrids[wayPoints[i].Z, wayPoints[i].X] = Instantiate(labyrinthGridPrefab, new Vector3(wayPoints[i].X + 0.5f, 1, wayPoints[i].Z + 0.5f), Quaternion.Euler(0, direction * 90, 0)) as LabyrinthGrid;
+            labyrinthGrids[wayPoints[i].Z, wayPoints[i].X].direction = direction;
+            if(i == 0)
+            {
+                // Visited the 1st waypoint, as the player starts from that waypoint
+                labyrinthGrids[wayPoints[i].Z, wayPoints[i].X].visited = true;
             }
         }
-        //Debug.Log(waypoints);
+        Debug.Log(waypoints);
+    }
+
+    public void VisitedGrid(Vector3 positionToCheck)
+    {
+        int y = (int)Math.Floor(positionToCheck.x);
+        int x = (int)Math.Floor(positionToCheck.z);
+
+        labyrinthGrids[x, y].visited = true;
     }
 }
