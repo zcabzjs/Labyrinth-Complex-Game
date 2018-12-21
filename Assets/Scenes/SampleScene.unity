@@ -113,6 +113,48 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &73255835
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4981462031003810, guid: e23fdb15f152e3340afdf996275a0768, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 9.754917
+      objectReference: {fileID: 0}
+    - target: {fileID: 4981462031003810, guid: e23fdb15f152e3340afdf996275a0768, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 2.4900334
+      objectReference: {fileID: 0}
+    - target: {fileID: 4981462031003810, guid: e23fdb15f152e3340afdf996275a0768, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 4.426383
+      objectReference: {fileID: 0}
+    - target: {fileID: 4981462031003810, guid: e23fdb15f152e3340afdf996275a0768, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4981462031003810, guid: e23fdb15f152e3340afdf996275a0768, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4981462031003810, guid: e23fdb15f152e3340afdf996275a0768, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4981462031003810, guid: e23fdb15f152e3340afdf996275a0768, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4981462031003810, guid: e23fdb15f152e3340afdf996275a0768, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e23fdb15f152e3340afdf996275a0768, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -914,51 +956,6 @@ Transform:
   m_Father: {fileID: 616924009}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &364185728
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 364185730}
-  - component: {fileID: 364185729}
-  m_Layer: 0
-  m_Name: Grid
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &364185729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 364185728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49298965b91c4a74fbda3b2486de4c15, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wallPrefab: {fileID: 4199613171790390, guid: a53780751c60ab54c982303eb8a9eee9, type: 2}
-  floorPrefab: {fileID: 4670837336010908, guid: 9c0f1551c887e924099aa72c30ecbc3b,
-    type: 2}
-  outerWallPrefab: {fileID: 4685642148496378, guid: fd3fd7dcd685e2d47a9a18981bcfa461,
-    type: 2}
---- !u!4 &364185730
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 364185728}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.5194128, y: 3.3304338, z: -3.827457}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &470161348
 GameObject:
   m_ObjectHideFlags: 0
@@ -1104,7 +1101,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh4076
+  m_Name: pb_Mesh4072
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -1629,7 +1626,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh4112
+  m_Name: pb_Mesh4102
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -2152,7 +2149,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh4064
+  m_Name: pb_Mesh4060
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -2339,9 +2336,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb489ea54c7445e43ab437da0399abd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pathLength: 8
+  pathLength: 15
   wallPrefab: {fileID: 4199613171790390, guid: a53780751c60ab54c982303eb8a9eee9, type: 2}
   floorPrefab: {fileID: 4670837336010908, guid: 9c0f1551c887e924099aa72c30ecbc3b,
+    type: 2}
+  startingPoint: {fileID: 0}
+  labyrinthGridPrefab: {fileID: 114794361938995100, guid: e23fdb15f152e3340afdf996275a0768,
     type: 2}
 --- !u!4 &1714564927
 Transform:
@@ -2354,14 +2354,14 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1723044645
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh4126
+  m_Name: pb_Mesh4116
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2

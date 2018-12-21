@@ -42,67 +42,79 @@ public class PlayerMovement : MonoBehaviour {
         {
             if (Input.GetKey("up"))
             {
-                UpdateRotationAndDesiredPosition();
-                timestamp = Time.time + timeBetweenMoves;
-            }
-            if (Input.GetKey("down"))
-            {
-                playerCurrentRotation = (playerCurrentRotation + 2) % 4;
-                UpdateRotationAndDesiredPosition();
+                UpdateRotationAndDesiredPosition("up");
                 timestamp = Time.time + timeBetweenMoves;
             }
             else if (Input.GetKey("left"))
             {
-                playerCurrentRotation = (playerCurrentRotation + 3) % 4;
-                UpdateRotationAndDesiredPosition();
+
+                FixPlayerRotation("left");
                 timestamp = Time.time + timeBetweenMoves;
             }
             else if (Input.GetKey("right"))
             {
-                playerCurrentRotation = (playerCurrentRotation + 1) % 4;
-                UpdateRotationAndDesiredPosition();
+
+                FixPlayerRotation("right");
                 timestamp = Time.time + timeBetweenMoves;
             }
 
         }
     }
 
-    void UpdateRotationAndDesiredPosition()
+    void FixPlayerRotation(string direction)
     {
-        FixPlayerRotation();
-        UpdateDesiredPosition();
-    }
-
-    void FixPlayerRotation()
-    {
+        switch (direction)
+        {
+            case "left":
+                if (CanNavigateLabyrinth((playerCurrentRotation + 3) % 4))
+                {
+                    playerCurrentRotation = (playerCurrentRotation + 3) % 4;
+                }
+                break;
+            case "right":
+                if (CanNavigateLabyrinth((playerCurrentRotation + 1) % 4))
+                {
+                    playerCurrentRotation = (playerCurrentRotation + 1) % 4;
+                }        
+                break;
+            case "up":
+                break;
+            default:
+                Debug.Log("Direction is broken in FixPlayerRotation");
+                break;
+        }
         transform.eulerAngles = new Vector3(0, 90 * playerCurrentRotation, 0);
     }
 
-    void UpdateDesiredPosition()
+    void UpdateRotationAndDesiredPosition(string direction)
     {
         switch (playerCurrentRotation)
         {
             case 0:
-                if(labyrinth.CanWalk(desiredPosition + Vector3.forward))
+                if(CanNavigateLabyrinth(playerCurrentRotation))
                 {
+                    FixPlayerRotation(direction);
                     desiredPosition += Vector3.forward;
                 }
                 break;
             case 1:
-                if (labyrinth.CanWalk(desiredPosition + Vector3.right))
+                if (CanNavigateLabyrinth(playerCurrentRotation))
                 {
+                    FixPlayerRotation(direction);
                     desiredPosition += Vector3.right;
                 }
                 break;
             case 2:
-                if (labyrinth.CanWalk(desiredPosition + Vector3.back))
+                if (CanNavigateLabyrinth(playerCurrentRotation))
                 {
+                    FixPlayerRotation(direction);
                     desiredPosition += Vector3.back;
                 }         
                 break;
             case 3:
-                if (labyrinth.CanWalk(desiredPosition + Vector3.left))
+                if (CanNavigateLabyrinth(playerCurrentRotation))
                 {
+                    FixPlayerRotation(direction);
                     desiredPosition += Vector3.left;
                 }
                 break;
@@ -111,5 +123,24 @@ public class PlayerMovement : MonoBehaviour {
                 break;
         }
 
+    }
+
+    private bool CanNavigateLabyrinth(int direction)
+    {
+        switch (direction)
+        {
+            case 0:
+                return labyrinth.CanWalk(desiredPosition + Vector3.forward);
+            case 1:
+                return labyrinth.CanWalk(desiredPosition + Vector3.right);
+            case 2:
+                return labyrinth.CanWalk(desiredPosition + Vector3.back);
+            case 3:
+                return labyrinth.CanWalk(desiredPosition + Vector3.left);
+            default:
+                Debug.Log("FIX ME CanNavigateLabyrinth");
+                break;
+        }
+        return false;
     }
 }
