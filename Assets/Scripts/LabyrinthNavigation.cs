@@ -17,8 +17,8 @@ public class LabyrinthNavigation : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        int length = UnityEngine.Random.Range(8, 12);
-        int width = UnityEngine.Random.Range(8, 12);
+        int length = UnityEngine.Random.Range(pathLength+5, pathLength + 10);
+        int width = UnityEngine.Random.Range(pathLength+5, pathLength + 10);
 
 
         labyrinthArray = new char[width, length];
@@ -39,7 +39,8 @@ public class LabyrinthNavigation : MonoBehaviour {
             for (int j = 0; j < length; j++)
             {
                 Instantiate(floorPrefab, new Vector3(j, 0, i), Quaternion.identity);
-                if(labyrinthArray[i,j] == 'x')
+                Instantiate(floorPrefab, new Vector3(j, 1.7f, i), Quaternion.identity);
+                if (labyrinthArray[i,j] == 'x')
                 {
                     Instantiate(wallPrefab, new Vector3(j, 1, i), Quaternion.identity);
 
@@ -47,7 +48,22 @@ public class LabyrinthNavigation : MonoBehaviour {
             }
         }
 
-	}
+        for (int i = -1; i <= width; i++)
+        {
+            for (int j = -1; j <= length; j++)
+            {
+                if (i == -1 || i == width)
+                {
+                    Instantiate(wallPrefab, new Vector3(j, 1, i), Quaternion.identity);
+                }
+                else if (j == -1 || j == length)
+                {
+                    Instantiate(wallPrefab, new Vector3(j, 1, i), Quaternion.identity);
+                }
+            }
+        }
+
+    }
 
     private void InitialiseLabyrinth()
     {
@@ -86,7 +102,7 @@ public class LabyrinthNavigation : MonoBehaviour {
     {
         int[] startingPoint = new int[2] { 0, 0 };
         
-        int currentDirection = 2;
+        int currentDirection = 1;
         
         bool pathGenerated = false;
         while (!pathGenerated)
@@ -162,7 +178,7 @@ public class LabyrinthNavigation : MonoBehaviour {
     // 0 is N, 1 is E, 2 is S, 3 is W
     private int GenerateRandomDirection(int currentDirection)
     {
-        if(UnityEngine.Random.value > 0.8)
+        if(UnityEngine.Random.value > 0.5)
         {
             return currentDirection;
         }
