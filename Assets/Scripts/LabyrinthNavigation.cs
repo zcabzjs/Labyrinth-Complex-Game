@@ -62,7 +62,7 @@ public class LabyrinthNavigation : MonoBehaviour {
             }
         }*/
 
-        for (int i = -1; i <= width; i++)
+        /*for (int i = -1; i <= width; i++)
         {
             for (int j = -1; j <= length; j++)
             {
@@ -75,7 +75,7 @@ public class LabyrinthNavigation : MonoBehaviour {
                     Instantiate(wallPrefab, new Vector3(j, 1, i), Quaternion.identity);
                 }
             }
-        }
+        }*/
 
     }
 
