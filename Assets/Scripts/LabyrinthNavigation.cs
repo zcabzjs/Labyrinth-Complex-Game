@@ -22,7 +22,7 @@ public class LabyrinthNavigation : MonoBehaviour {
     public LabyrinthGrid[,] labyrinthGrids;
 
     // Note to self: Waypoints follow the Unity coordinates, so (0,1) is actually 0 on X axis and 1 on Z axis
-    List<GridPoint> wayPoints;
+    List<WayPoint> wayPoints;
 
     // Use this for initialization
     void Start () {
@@ -122,8 +122,9 @@ public class LabyrinthNavigation : MonoBehaviour {
             InitialiseLabyrinth();
             currentPoint = new GridPoint(startingPoint.Z, startingPoint.X);
             labyrinthArray[currentPoint.Z, currentPoint.X] = 'o';
-            wayPoints = new List<GridPoint>();
-            wayPoints.Add(startingPoint);
+            wayPoints = new List<WayPoint>();
+            WayPoint startingWayPoint = new WayPoint(startingPoint);
+            wayPoints.Add(startingWayPoint);
             for (int i = 0; i < pathLength; i++)
             {
                 bool blockGenerated = false;
@@ -138,8 +139,8 @@ public class LabyrinthNavigation : MonoBehaviour {
                                 labyrinthArray[currentPoint.X, currentPoint.Z - 1] = 'o';
                                 labyrinthArray[currentPoint.X, currentPoint.Z - 2] = 'o';
                                 
-                                wayPoints.Add(new GridPoint(currentPoint.Z - 1, currentPoint.X));
-                                wayPoints.Add(new GridPoint(currentPoint.Z - 2, currentPoint.X));
+                                wayPoints.Add(new WayPoint(new GridPoint(currentPoint.Z - 1, currentPoint.X)));
+                                wayPoints.Add(new WayPoint(new GridPoint(currentPoint.Z - 2, currentPoint.X)));
 
                                 blockGenerated = true;
                                 currentPoint.Z = currentPoint.Z - 2;
@@ -152,8 +153,8 @@ public class LabyrinthNavigation : MonoBehaviour {
                                 labyrinthArray[currentPoint.X + 1, currentPoint.Z] = 'o';
                                 labyrinthArray[currentPoint.X + 2, currentPoint.Z] = 'o';
 
-                                wayPoints.Add(new GridPoint(currentPoint.Z, currentPoint.X + 1));
-                                wayPoints.Add(new GridPoint(currentPoint.Z, currentPoint.X + 2));
+                                wayPoints.Add(new WayPoint(new GridPoint(currentPoint.Z, currentPoint.X + 1)));
+                                wayPoints.Add(new WayPoint(new GridPoint(currentPoint.Z, currentPoint.X + 2)));
 
                                 blockGenerated = true;
                                 currentPoint.X = currentPoint.X + 2;
@@ -165,8 +166,8 @@ public class LabyrinthNavigation : MonoBehaviour {
                                 labyrinthArray[currentPoint.X, currentPoint.Z + 1] = 'o';
                                 labyrinthArray[currentPoint.X, currentPoint.Z + 2] = 'o';
 
-                                wayPoints.Add(new GridPoint(currentPoint.Z + 1, currentPoint.X));
-                                wayPoints.Add(new GridPoint(currentPoint.Z + 2, currentPoint.X));
+                                wayPoints.Add(new WayPoint(new GridPoint(currentPoint.Z + 1, currentPoint.X)));
+                                wayPoints.Add(new WayPoint(new GridPoint(currentPoint.Z + 2, currentPoint.X)));
 
                                 blockGenerated = true;
                                 currentPoint.Z = currentPoint.Z + 2;
@@ -178,8 +179,8 @@ public class LabyrinthNavigation : MonoBehaviour {
                                 labyrinthArray[currentPoint.X - 1, currentPoint.Z] = 'o';
                                 labyrinthArray[currentPoint.X - 2, currentPoint.Z] = 'o';
 
-                                wayPoints.Add(new GridPoint(currentPoint.Z, currentPoint.X - 1));
-                                wayPoints.Add(new GridPoint(currentPoint.Z, currentPoint.X - 2));
+                                wayPoints.Add(new WayPoint(new GridPoint(currentPoint.Z, currentPoint.X - 1)));
+                                wayPoints.Add(new WayPoint(new GridPoint(currentPoint.Z, currentPoint.X - 2)));
 
                                 blockGenerated = true;
                                 currentPoint.X = currentPoint.X - 2;
@@ -228,44 +229,79 @@ public class LabyrinthNavigation : MonoBehaviour {
         return IsValid(x, y) && IsEmpty(x, y) && !labyrinthGrids[x,y].visited;
     }
 
+    public LabyrinthGrid labyrinthLeftCornerGridPrefab;
+    public LabyrinthGrid labyrinthRightCornerGridPrefab;
     public LabyrinthGrid labyrinthGridPrefab;
 
     private void GenerateLabyrinth()
     {
         string waypoints = "";
+
+        // Mark the directions (To identify direction of obstacle and corners)
         for(int i = 0; i < wayPoints.Count; i++)
         {
             int direction = 0;
-            waypoints += wayPoints[i].X.ToString() + ',' + wayPoints[i].Z.ToString() + '\n';
+            waypoints += wayPoints[i].point.X.ToString() + ',' + wayPoints[i].point.Z.ToString() + '\n';
             if(i > 0)
             {
-                if(wayPoints[i].Z == wayPoints[i-1].Z + 1)
+                if(wayPoints[i].point.Z == wayPoints[i-1].point.Z + 1)
                 {
                     direction = 0;                    
                 }
-                else if(wayPoints[i].Z == wayPoints[i - 1].Z - 1)
+                else if(wayPoints[i].point.Z == wayPoints[i - 1].point.Z - 1)
                 {
                     direction = 2;
                 }
-                else if(wayPoints[i].X == wayPoints[i - 1].X + 1)
+                else if(wayPoints[i].point.X == wayPoints[i - 1].point.X + 1)
                 {
                     direction = 1;
                 }
-                else if (wayPoints[i].X == wayPoints[i - 1].X - 1)
+                else if (wayPoints[i].point.X == wayPoints[i - 1].point.X - 1)
                 {
                     direction = 3;
                 }
-                
+                wayPoints[i - 1].toDirection = direction;
             }
-            labyrinthGrids[wayPoints[i].Z, wayPoints[i].X] = Instantiate(labyrinthGridPrefab, new Vector3(wayPoints[i].X + 0.5f, 1, wayPoints[i].Z + 0.5f), Quaternion.Euler(0, direction * 90, 0)) as LabyrinthGrid;
+            wayPoints[i].fromDirection = direction;
+
+
+
+            /*labyrinthGrids[wayPoints[i].Z, wayPoints[i].X] = Instantiate(labyrinthGridPrefab, new Vector3(wayPoints[i].X + 0.5f, 1, wayPoints[i].Z + 0.5f), Quaternion.Euler(0, direction * 90, 0)) as LabyrinthGrid;
             labyrinthGrids[wayPoints[i].Z, wayPoints[i].X].direction = direction;
             if(i == 0)
             {
                 // Visited the 1st waypoint, as the player starts from that waypoint
                 labyrinthGrids[wayPoints[i].Z, wayPoints[i].X].visited = true;
-            }
+            }*/
         }
         Debug.Log(waypoints);
+
+        // To generate the actual labyrinth
+        for(int i = 0; i < wayPoints.Count; i++)
+        {
+            if(wayPoints[i].fromDirection != wayPoints[i].toDirection && wayPoints[i].toDirection != -1)
+            {
+                if(wayPoints[i].toDirection - wayPoints[i].fromDirection == 1 || wayPoints[i].toDirection - wayPoints[i].fromDirection == -3)
+                {
+                    labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X] = Instantiate(labyrinthRightCornerGridPrefab, new Vector3(wayPoints[i].point.X + 0.5f, 1, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as LabyrinthGrid;
+
+                }
+                else if(wayPoints[i].fromDirection - wayPoints[i].toDirection == 1 || wayPoints[i].fromDirection - wayPoints[i].toDirection == -3)
+                {
+                    labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X] = Instantiate(labyrinthLeftCornerGridPrefab, new Vector3(wayPoints[i].point.X + 0.5f, 1, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as LabyrinthGrid;
+                }
+            }
+            else
+            {
+                labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X] = Instantiate(labyrinthGridPrefab, new Vector3(wayPoints[i].point.X + 0.5f, 1, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as LabyrinthGrid;
+            }
+            if (i == 0)
+            {
+                // Visited the 1st waypoint, as the player starts from that waypoint
+                labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X].visited = true;
+            }
+            
+        }
     }
 
     public void VisitedGrid(Vector3 positionToCheck)
