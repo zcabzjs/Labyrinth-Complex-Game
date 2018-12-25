@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 4464786183979048}
   - component: {fileID: 114480599504833978}
   m_Layer: 0
-  m_Name: Labyrinth Right Corner Grid Placeholder
+  m_Name: Labyrinth Right Corner Grid Windowed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
