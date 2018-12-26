@@ -130,24 +130,20 @@ public class LabyrinthNavigation : MonoBehaviour {
                 bool blockGenerated = false;
                 while (!blockGenerated)
                 {
-                    int direction = GenerateRandomDirection(currentDirection);
+
+                    int direction;
+                    if (i == 0) {
+                        // Setting direction to always go straight on the 1st block
+                        direction = 0;
+                    }
+                    else
+                    {
+                        direction = GenerateRandomDirection(currentDirection);
+                    }
+                        
                     switch (direction)
                     {
                         case 0:
-                            if (IsValidForGeneration(currentPoint.X, currentPoint.Z - 2))
-                            {
-                                labyrinthArray[currentPoint.X, currentPoint.Z - 1] = 'o';
-                                labyrinthArray[currentPoint.X, currentPoint.Z - 2] = 'o';
-                                
-                                wayPoints.Add(new WayPoint(new GridPoint(currentPoint.Z - 1, currentPoint.X)));
-                                wayPoints.Add(new WayPoint(new GridPoint(currentPoint.Z - 2, currentPoint.X)));
-
-                                blockGenerated = true;
-                                currentPoint.Z = currentPoint.Z - 2;
-                                
-                            }
-                            break;
-                        case 1:
                             if (IsValidForGeneration(currentPoint.X + 2, currentPoint.Z))
                             {
                                 labyrinthArray[currentPoint.X + 1, currentPoint.Z] = 'o';
@@ -160,7 +156,7 @@ public class LabyrinthNavigation : MonoBehaviour {
                                 currentPoint.X = currentPoint.X + 2;
                             }
                             break;
-                        case 2:
+                        case 1:
                             if (IsValidForGeneration(currentPoint.X, currentPoint.Z + 2))
                             {
                                 labyrinthArray[currentPoint.X, currentPoint.Z + 1] = 'o';
@@ -173,7 +169,7 @@ public class LabyrinthNavigation : MonoBehaviour {
                                 currentPoint.Z = currentPoint.Z + 2;
                             }
                             break;
-                        case 3:
+                        case 2:
                             if (IsValidForGeneration(currentPoint.X - 2, currentPoint.Z))
                             {
                                 labyrinthArray[currentPoint.X - 1, currentPoint.Z] = 'o';
@@ -184,6 +180,20 @@ public class LabyrinthNavigation : MonoBehaviour {
 
                                 blockGenerated = true;
                                 currentPoint.X = currentPoint.X - 2;
+                            }
+                            break;
+                        case 3:
+                            if (IsValidForGeneration(currentPoint.X, currentPoint.Z - 2))
+                            {
+                                labyrinthArray[currentPoint.X, currentPoint.Z - 1] = 'o';
+                                labyrinthArray[currentPoint.X, currentPoint.Z - 2] = 'o';
+
+                                wayPoints.Add(new WayPoint(new GridPoint(currentPoint.Z - 1, currentPoint.X)));
+                                wayPoints.Add(new WayPoint(new GridPoint(currentPoint.Z - 2, currentPoint.X)));
+
+                                blockGenerated = true;
+                                currentPoint.Z = currentPoint.Z - 2;
+
                             }
                             break;
                         default:
@@ -232,6 +242,7 @@ public class LabyrinthNavigation : MonoBehaviour {
     public LabyrinthGrid labyrinthLeftCornerGridPrefab;
     public LabyrinthGrid labyrinthRightCornerGridPrefab;
     public LabyrinthGrid labyrinthGridPrefab;
+    public LabyrinthGrid labyrinthTreasureRoomGridPrefab;
 
     private void GenerateLabyrinth()
     {
@@ -293,7 +304,14 @@ public class LabyrinthNavigation : MonoBehaviour {
             }
             else
             {
-                labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X] = Instantiate(labyrinthGridPrefab, new Vector3(wayPoints[i].point.X + 0.5f, 1, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as LabyrinthGrid;
+                if(i == wayPoints.Count - 1)
+                {
+                    labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X] = Instantiate(labyrinthTreasureRoomGridPrefab, new Vector3(wayPoints[i].point.X + 0.5f, 1, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as LabyrinthGrid;
+                }
+                else
+                {
+                    labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X] = Instantiate(labyrinthGridPrefab, new Vector3(wayPoints[i].point.X + 0.5f, 1, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as LabyrinthGrid;
+                }
             }
             if (i == 0)
             {
