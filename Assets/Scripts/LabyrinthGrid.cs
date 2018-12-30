@@ -10,7 +10,17 @@ public class LabyrinthGrid : MonoBehaviour {
     //public bool isCorner = false;
     public Obstacle obstacle = null;
 
-    public bool isObstructed = false;
+    public bool IsObstructed()
+    {
+        if(obstacle == null)
+        {
+            return false;
+        }
+        else
+        {
+            return !obstacle.isCleared;
+        }
+    }
 
     public LabyrinthGrid()
     {
@@ -26,14 +36,7 @@ public class LabyrinthGrid : MonoBehaviour {
         }
         else
         {
-            if (obstacle.InteractWithObstacle(instruction))
-            {
-                isObstructed = false;
-            }
-            else
-            {
-                Debug.Log("Wrong movement");
-            }
+            obstacle.InteractWithObstacle(instruction);
         }
 
     }

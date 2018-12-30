@@ -247,7 +247,7 @@ public class LabyrinthNavigation : MonoBehaviour {
         int x = (int)Math.Floor(positionToCheck.z);
 
         // Check if the grid was already visited as well
-        return IsValid(x, y) && IsEmpty(x, y) && !labyrinthGrids[x,y].visited && !labyrinthGrids[x, y].isObstructed;
+        return IsValid(x, y) && IsEmpty(x, y) && !labyrinthGrids[x,y].visited && !labyrinthGrids[x, y].IsObstructed();
     }
 
     public LabyrinthGrid labyrinthLeftCornerGridPrefab;
@@ -334,7 +334,7 @@ public class LabyrinthNavigation : MonoBehaviour {
             if (i == 1)
             {
                 labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X].obstacle = Instantiate(obstaclePrefab, new Vector3(wayPoints[i].point.X + 0.5f, 0, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as Obstacle;
-                labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X].isObstructed = true;
+                //labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X].isObstructed = true;
             }
         }
     }

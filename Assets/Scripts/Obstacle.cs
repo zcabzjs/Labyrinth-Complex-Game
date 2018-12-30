@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class Obstacle : MonoBehaviour {
 
-    public abstract bool InteractWithObstacle(string instruction);
+    public bool isCleared = false;
+
+    public abstract void InteractWithObstacle(string instruction);
     
 }
