@@ -24,6 +24,9 @@ public class LabyrinthNavigation : MonoBehaviour {
     // Note to self: Waypoints follow the Unity coordinates, so (0,1) is actually 0 on X axis and 1 on Z axis
     List<WayPoint> wayPoints;
 
+    // Player prefab to be instantiated
+    //public Transform playerPrefab;
+
     // Use this for initialization
     void Start () {
 
@@ -38,7 +41,12 @@ public class LabyrinthNavigation : MonoBehaviour {
         GeneratePath();
         GenerateLabyrinth();
 
-        string array = "";
+        // Instantiate the player at the starting point
+        //Instantiate(playerPrefab, new Vector3(startingPoint.Z, 0, startingPoint.X), Quaternion.identity);
+
+
+        // Code for visualising the labyrinth
+        /*string array = "";
         for(int i = width-1; i >=0; i--)
         {
             for(int j = 0; j < length - 1; j++)
@@ -48,6 +56,9 @@ public class LabyrinthNavigation : MonoBehaviour {
             array += '\n';
         }
         print(array);
+        */
+
+
         /*for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < length; j++)
@@ -236,13 +247,14 @@ public class LabyrinthNavigation : MonoBehaviour {
         int x = (int)Math.Floor(positionToCheck.z);
 
         // Check if the grid was already visited as well
-        return IsValid(x, y) && IsEmpty(x, y) && !labyrinthGrids[x,y].visited;
+        return IsValid(x, y) && IsEmpty(x, y) && !labyrinthGrids[x,y].visited && !labyrinthGrids[x, y].isObstructed;
     }
 
     public LabyrinthGrid labyrinthLeftCornerGridPrefab;
     public LabyrinthGrid labyrinthRightCornerGridPrefab;
-    public LabyrinthGrid labyrinthGridPrefab;
     public LabyrinthGrid labyrinthTreasureRoomGridPrefab;
+    public LabyrinthGrid[] labyrinthGridPrefabs;
+    public Obstacle obstaclePrefab;
 
     private void GenerateLabyrinth()
     {
@@ -285,7 +297,7 @@ public class LabyrinthNavigation : MonoBehaviour {
                 labyrinthGrids[wayPoints[i].Z, wayPoints[i].X].visited = true;
             }*/
         }
-        Debug.Log(waypoints);
+        // Debug.Log(waypoints);
 
         // To generate the actual labyrinth
         for(int i = 0; i < wayPoints.Count; i++)
@@ -294,23 +306,23 @@ public class LabyrinthNavigation : MonoBehaviour {
             {
                 if(wayPoints[i].toDirection - wayPoints[i].fromDirection == 1 || wayPoints[i].toDirection - wayPoints[i].fromDirection == -3)
                 {
-                    labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X] = Instantiate(labyrinthRightCornerGridPrefab, new Vector3(wayPoints[i].point.X + 0.5f, 1, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as LabyrinthGrid;
+                    labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X] = Instantiate(labyrinthRightCornerGridPrefab, new Vector3(wayPoints[i].point.X + 0.5f, 0, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as LabyrinthGrid;
 
                 }
                 else if(wayPoints[i].fromDirection - wayPoints[i].toDirection == 1 || wayPoints[i].fromDirection - wayPoints[i].toDirection == -3)
                 {
-                    labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X] = Instantiate(labyrinthLeftCornerGridPrefab, new Vector3(wayPoints[i].point.X + 0.5f, 1, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as LabyrinthGrid;
+                    labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X] = Instantiate(labyrinthLeftCornerGridPrefab, new Vector3(wayPoints[i].point.X + 0.5f, 0, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as LabyrinthGrid;
                 }
             }
             else
             {
                 if(i == wayPoints.Count - 1)
                 {
-                    labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X] = Instantiate(labyrinthTreasureRoomGridPrefab, new Vector3(wayPoints[i].point.X + 0.5f, 1, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as LabyrinthGrid;
+                    labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X] = Instantiate(labyrinthTreasureRoomGridPrefab, new Vector3(wayPoints[i].point.X + 0.5f, 0, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as LabyrinthGrid;
                 }
                 else
                 {
-                    labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X] = Instantiate(labyrinthGridPrefab, new Vector3(wayPoints[i].point.X + 0.5f, 1, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as LabyrinthGrid;
+                    labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X] = Instantiate(labyrinthGridPrefabs[UnityEngine.Random.Range(0, labyrinthGridPrefabs.Length)], new Vector3(wayPoints[i].point.X + 0.5f, 0, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as LabyrinthGrid;
                 }
             }
             if (i == 0)
@@ -318,7 +330,12 @@ public class LabyrinthNavigation : MonoBehaviour {
                 // Visited the 1st waypoint, as the player starts from that waypoint
                 labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X].visited = true;
             }
-            
+            // Testing obstacles
+            if (i == 1)
+            {
+                labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X].obstacle = Instantiate(obstaclePrefab, new Vector3(wayPoints[i].point.X + 0.5f, 0, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as Obstacle;
+                labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X].isObstructed = true;
+            }
         }
     }
 
@@ -328,5 +345,19 @@ public class LabyrinthNavigation : MonoBehaviour {
         int x = (int)Math.Floor(positionToCheck.z);
 
         labyrinthGrids[x, y].visited = true;
+    }
+
+    public void InteractWithLabyrinth(Vector3 positionToCheck, string instruction)
+    {
+        int y = (int)Math.Floor(positionToCheck.x);
+        int x = (int)Math.Floor(positionToCheck.z);
+        if (IsValid(x, y))
+        {
+            labyrinthGrids[x, y].InteractWithObstacle(instruction);
+        }
+        else
+        {
+            Debug.Log("Coordinates are invalid");
+        }
     }
 }
