@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PushLeftObstacle : Obstacle {
+public class DoorObstacle : Obstacle {
 
     Animator anim;
     public bool animationPlaying;
@@ -15,16 +15,16 @@ public class PushLeftObstacle : Obstacle {
 
     public override void InteractWithObstacle(string instruction)
     {
-        if (instruction.Equals("PushLeft")){
+        if (instruction.Equals("PushDoor"))
+        {
             // Play animation of thing moving to the left, and then destroyed...
             StartCoroutine(PlayAnimation());
         }
-        
     }
 
     IEnumerator PlayAnimation()
     {
-        anim.SetTrigger("PushLeft");
+        anim.SetTrigger("PushDoor");
         yield return new WaitForSeconds(animationTime);
         isCleared = true;
     }

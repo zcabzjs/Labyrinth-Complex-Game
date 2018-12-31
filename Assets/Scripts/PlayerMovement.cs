@@ -66,13 +66,13 @@ public class PlayerMovement : MonoBehaviour {
         switch (direction)
         {
             case "left":
-                if (CanNavigateLabyrinth((playerCurrentRotation + 3) % 4))
+                if (CanRotateInLabyrinth((playerCurrentRotation + 3) % 4))
                 {
                     playerCurrentRotation = (playerCurrentRotation + 3) % 4;
                 }
                 break;
             case "right":
-                if (CanNavigateLabyrinth((playerCurrentRotation + 1) % 4))
+                if (CanRotateInLabyrinth((playerCurrentRotation + 1) % 4))
                 {
                     playerCurrentRotation = (playerCurrentRotation + 1) % 4;
                 }        
@@ -143,6 +143,25 @@ public class PlayerMovement : MonoBehaviour {
                 return labyrinth.CanWalk(desiredPosition + Vector3.left);
             default:
                 Debug.Log("FIX ME CanNavigateLabyrinth");
+                break;
+        }
+        return false;
+    }
+
+    private bool CanRotateInLabyrinth(int direction)
+    {
+        switch (direction)
+        {
+            case 0:
+                return labyrinth.CanRotate(desiredPosition + Vector3.forward);
+            case 1:
+                return labyrinth.CanRotate(desiredPosition + Vector3.right);
+            case 2:
+                return labyrinth.CanRotate(desiredPosition + Vector3.back);
+            case 3:
+                return labyrinth.CanRotate(desiredPosition + Vector3.left);
+            default:
+                Debug.Log("FIX ME CanRotateInLabyrinth");
                 break;
         }
         return false;

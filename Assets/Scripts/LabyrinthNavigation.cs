@@ -39,7 +39,9 @@ public class LabyrinthNavigation : MonoBehaviour {
         labyrinthGrids = new LabyrinthGrid[width, length];
 
         GeneratePath();
+        MarkDirectionForWaypoints();
         GenerateLabyrinth();
+        GenerateObstacles();
 
         // Instantiate the player at the starting point
         //Instantiate(playerPrefab, new Vector3(startingPoint.Z, 0, startingPoint.X), Quaternion.identity);
@@ -250,32 +252,44 @@ public class LabyrinthNavigation : MonoBehaviour {
         return IsValid(x, y) && IsEmpty(x, y) && !labyrinthGrids[x,y].visited && !labyrinthGrids[x, y].IsObstructed();
     }
 
+    // To check if a player can rotate. It's different from checking if the player can walk through, as there might be an obstacle, and the player wants to rotate to face the obstacle
+    public bool CanRotate(Vector3 positionToCheck)
+    {
+        // Adjust coordinates, as local coordinates of player is centred around the centre of the tile
+        // TODO: Remember to fix positionToCheckZ to be Math.Floor when using real grid
+        int y = (int)Math.Floor(positionToCheck.x);
+        int x = (int)Math.Floor(positionToCheck.z);
+
+        // Check if the grid was already visited as well
+        return IsValid(x, y) && IsEmpty(x, y) && !labyrinthGrids[x, y].visited;
+    }
+
     public LabyrinthGrid labyrinthLeftCornerGridPrefab;
     public LabyrinthGrid labyrinthRightCornerGridPrefab;
     public LabyrinthGrid labyrinthTreasureRoomGridPrefab;
     public LabyrinthGrid[] labyrinthGridPrefabs;
-    public Obstacle obstaclePrefab;
+    public Obstacle[] obstaclePrefabs;
 
-    private void GenerateLabyrinth()
+    private void MarkDirectionForWaypoints()
     {
         string waypoints = "";
 
         // Mark the directions (To identify direction of obstacle and corners)
-        for(int i = 0; i < wayPoints.Count; i++)
+        for (int i = 0; i < wayPoints.Count; i++)
         {
             int direction = 0;
             waypoints += wayPoints[i].point.X.ToString() + ',' + wayPoints[i].point.Z.ToString() + '\n';
-            if(i > 0)
+            if (i > 0)
             {
-                if(wayPoints[i].point.Z == wayPoints[i-1].point.Z + 1)
+                if (wayPoints[i].point.Z == wayPoints[i - 1].point.Z + 1)
                 {
-                    direction = 0;                    
+                    direction = 0;
                 }
-                else if(wayPoints[i].point.Z == wayPoints[i - 1].point.Z - 1)
+                else if (wayPoints[i].point.Z == wayPoints[i - 1].point.Z - 1)
                 {
                     direction = 2;
                 }
-                else if(wayPoints[i].point.X == wayPoints[i - 1].point.X + 1)
+                else if (wayPoints[i].point.X == wayPoints[i - 1].point.X + 1)
                 {
                     direction = 1;
                 }
@@ -298,7 +312,10 @@ public class LabyrinthNavigation : MonoBehaviour {
             }*/
         }
         // Debug.Log(waypoints);
+    }
 
+    private void GenerateLabyrinth()
+    {
         // To generate the actual labyrinth
         for(int i = 0; i < wayPoints.Count; i++)
         {
@@ -316,9 +333,13 @@ public class LabyrinthNavigation : MonoBehaviour {
             }
             else
             {
+                // For generating the treasure room in the end
                 if(i == wayPoints.Count - 1)
                 {
                     labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X] = Instantiate(labyrinthTreasureRoomGridPrefab, new Vector3(wayPoints[i].point.X + 0.5f, 0, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as LabyrinthGrid;
+
+                    // Currently using the normal door obstacle (Might change to a golden door to signify the end)
+                    labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X].obstacle = Instantiate(obstaclePrefabs[0], new Vector3(wayPoints[i].point.X + 0.5f, 0, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as Obstacle;
                 }
                 else
                 {
@@ -330,12 +351,46 @@ public class LabyrinthNavigation : MonoBehaviour {
                 // Visited the 1st waypoint, as the player starts from that waypoint
                 labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X].visited = true;
             }
-            // Testing obstacles
-            if (i == 1)
+
+        }
+    }
+
+    public int numberOfObstacles;
+
+    private void GenerateObstacles()
+    {
+        List<int> randomNumbers = new List<int>();
+        if(numberOfObstacles > pathLength)
+        {
+            Debug.Log("Number of obstacles given is longer than the pathLength variable");
+        }
+
+        for(int i = 0; i < numberOfObstacles; i++)
+        {
+            bool randomNumberGenerated = false;
+            while (!randomNumberGenerated)
             {
-                labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X].obstacle = Instantiate(obstaclePrefab, new Vector3(wayPoints[i].point.X + 0.5f, 0, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as Obstacle;
-                //labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X].isObstructed = true;
+                int newRandomNumber = UnityEngine.Random.Range(0, pathLength);
+                int numberToBeAddedToList = newRandomNumber * 2 + 1;
+                if (!randomNumbers.Contains(numberToBeAddedToList))
+                {
+                    randomNumbers.Add(numberToBeAddedToList);
+                    randomNumberGenerated = true;
+                }
             }
+        }
+
+        for(int i = 0; i < randomNumbers.Count; i++)
+        {
+            Debug.Log(randomNumbers[i]);
+        }
+
+        Debug.Log("Waypoint count: " + wayPoints.Count);
+
+        for(int i = 0; i < randomNumbers.Count; i++)
+        {
+            labyrinthGrids[wayPoints[randomNumbers[i]].point.Z, wayPoints[randomNumbers[i]].point.X].obstacle = Instantiate(obstaclePrefabs[UnityEngine.Random.Range(0, obstaclePrefabs.Length)], new Vector3(wayPoints[randomNumbers[i]].point.X + 0.5f, 0, wayPoints[randomNumbers[i]].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[randomNumbers[i]].fromDirection * 90, 0)) as Obstacle;
+            
         }
     }
 

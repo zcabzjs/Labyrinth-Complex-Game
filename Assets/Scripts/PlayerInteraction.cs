@@ -12,8 +12,9 @@ public class PlayerInteraction : MonoBehaviour {
     PlayerMovement playerMovement;
     // Use this for initialization
     void Start () {
+        playerMovement = GetComponent<PlayerMovement>();
 
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -26,6 +27,11 @@ public class PlayerInteraction : MonoBehaviour {
         {
             updatePlayerPositionAndRotation();
             labyrinth.InteractWithLabyrinth(convertDirectionToVector(playerCurrentPosition, playerCurrentRotation), "PushRight");
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            updatePlayerPositionAndRotation();
+            labyrinth.InteractWithLabyrinth(convertDirectionToVector(playerCurrentPosition, playerCurrentRotation), "PushDoor");
         }
 	}
 
@@ -49,7 +55,7 @@ public class PlayerInteraction : MonoBehaviour {
 
     private void updatePlayerPositionAndRotation()
     {
-        playerCurrentRotation = GetComponent<PlayerMovement>().playerCurrentRotation;
-        playerCurrentPosition = GetComponent<PlayerMovement>().desiredPosition;
+        playerCurrentRotation = playerMovement.playerCurrentRotation;
+        playerCurrentPosition = playerMovement.desiredPosition;
     }
 }
