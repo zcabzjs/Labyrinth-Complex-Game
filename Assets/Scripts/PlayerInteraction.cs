@@ -10,25 +10,30 @@ public class PlayerInteraction : MonoBehaviour {
     int playerCurrentRotation;
 
     PlayerMovement playerMovement;
+
+    PlayerGestureListener gestureListener;
     // Use this for initialization
     void Start () {
+        // get the gestures listener
+        gestureListener = PlayerGestureListener.Instance;
+
         playerMovement = GetComponent<PlayerMovement>();
 
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (gestureListener.IsSwipeLeft())
         {
             updatePlayerPositionAndRotation();
             labyrinth.InteractWithLabyrinth(convertDirectionToVector(playerCurrentPosition, playerCurrentRotation), "PushLeft");
         }
-        else if (Input.GetKeyDown(KeyCode.W))
+        else if (gestureListener.IsSwipeRight())
         {
             updatePlayerPositionAndRotation();
             labyrinth.InteractWithLabyrinth(convertDirectionToVector(playerCurrentPosition, playerCurrentRotation), "PushRight");
         }
-        else if (Input.GetKeyDown(KeyCode.E))
+        else if (gestureListener.IsPush())
         {
             updatePlayerPositionAndRotation();
             labyrinth.InteractWithLabyrinth(convertDirectionToVector(playerCurrentPosition, playerCurrentRotation), "PushDoor");

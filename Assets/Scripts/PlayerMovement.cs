@@ -16,10 +16,13 @@ public class PlayerMovement : MonoBehaviour {
 
     Vector3 checkPoint;
 
+    PlayerGestureListener gestureListener;
     // Use this for initialization
     void Start()
     {
         desiredPosition = transform.position;
+        gestureListener = PlayerGestureListener.Instance;
+
     }
 
     // Update is called once per frame
@@ -27,6 +30,8 @@ public class PlayerMovement : MonoBehaviour {
     {
         ArrowKeyRotation();
         transform.position = Vector3.Lerp(transform.position, desiredPosition, interpolationSpeed * Time.deltaTime);
+
+        //transform.eulerAngles = new Vector3(0, 90 * playerCurrentRotation, 0);
         if (desiredPosition == checkPoint)
         {
             Debug.Log("Checkpoint arrived!");
@@ -40,18 +45,18 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (Time.time >= timestamp)
         {
-            if (Input.GetKey("up"))
+            if (gestureListener.IsSwipeUp())
             {
                 UpdateRotationAndDesiredPosition("up");
                 timestamp = Time.time + timeBetweenMoves;
             }
-            else if (Input.GetKey("left"))
+            else if (gestureListener.IsLeftHandRaised())
             {
 
                 FixPlayerRotation("left");
                 timestamp = Time.time + timeBetweenMoves;
             }
-            else if (Input.GetKey("right"))
+            else if (gestureListener.IsRightHandRaised())
             {
 
                 FixPlayerRotation("right");
