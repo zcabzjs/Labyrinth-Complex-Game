@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (Time.time >= timestamp)
         {
-            if (gestureListener.IsSwipeUp())
+            if (gestureListener.IsRunning())
             {
                 UpdateRotationAndDesiredPosition("up");
                 timestamp = Time.time + timeBetweenMoves;

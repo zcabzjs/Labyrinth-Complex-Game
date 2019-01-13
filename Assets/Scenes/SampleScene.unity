@@ -1137,7 +1137,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh43560
+  m_Name: pb_Mesh8096
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -1423,8 +1423,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 470161348}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.15, z: 0.5}
-  m_LocalScale: {x: 0.325, y: 0.325, z: 0.325}
+  m_LocalPosition: {x: 0.5, y: 0.13, z: 0.5}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_Children:
   - {fileID: 120144783}
   - {fileID: 616924009}
@@ -1443,7 +1443,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeBetweenMoves: 0.3333
-  interpolationSpeed: 10
+  interpolationSpeed: 3
   desiredPosition: {x: 0, y: 0, z: 0}
   labyrinth: {fileID: 1714564926}
   playerCurrentRotation: 0
@@ -1552,7 +1552,7 @@ MonoBehaviour:
   distance: 0.4
   height: 0.05
   heightDamping: 2
-  rotationDamping: 3
+  rotationDamping: 2
 --- !u!1 &616924004
 GameObject:
   m_ObjectHideFlags: 0
@@ -2074,7 +2074,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4701190201605898, guid: 6f861dd306b80964b9a9e150de8ddb5e, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4701190201605898, guid: 6f861dd306b80964b9a9e150de8ddb5e, type: 2}
       propertyPath: m_LocalPosition.y
@@ -2126,7 +2126,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh43614
+  m_Name: pb_Mesh8150
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -2705,7 +2705,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh43572
+  m_Name: pb_Mesh8108
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -2919,7 +2919,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh43644
+  m_Name: pb_Mesh8180
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -3375,7 +3375,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh-43600
+  m_Name: pb_Mesh-1484
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2

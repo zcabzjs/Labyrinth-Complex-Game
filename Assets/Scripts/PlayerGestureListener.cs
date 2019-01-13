@@ -26,6 +26,7 @@ public class PlayerGestureListener : MonoBehaviour, KinectGestures.GestureListen
     private bool leftHandRaised = false;
     private bool isSquat = false;
     private bool isPush = false;
+    private bool isRunning = false;
     /// <summary>
     /// Gets the singleton PlayerGestureListener instance.
     /// </summary>
@@ -83,14 +84,6 @@ public class PlayerGestureListener : MonoBehaviour, KinectGestures.GestureListen
         return false;
     }
 
-
-
-
-
-
-
-
-
     public bool IsPush()
     {
         if (isPush)
@@ -135,6 +128,17 @@ public class PlayerGestureListener : MonoBehaviour, KinectGestures.GestureListen
         return false;
     }
 
+    public bool IsRunning()
+    {
+        if (isRunning)
+        {
+            isRunning = false;
+            return true;
+        }
+
+        return false;
+    }
+
     public void UserDetected(long userId, int userIndex)
     {
         // the gestures are allowed for the primary user only
@@ -154,7 +158,7 @@ public class PlayerGestureListener : MonoBehaviour, KinectGestures.GestureListen
 
         manager.DetectGesture(userId, KinectGestures.Gestures.Push);
         manager.DetectGesture(userId, KinectGestures.Gestures.SwipeUp);
-        //manager.DetectGesture(userId, KinectGestures.Gestures.Run);
+        manager.DetectGesture(userId, KinectGestures.Gestures.Run);
 
         if (gestureInfo != null)
         {
@@ -213,6 +217,8 @@ public class PlayerGestureListener : MonoBehaviour, KinectGestures.GestureListen
 
                 progressDisplayed = true;
                 progressGestureTime = Time.realtimeSinceStartup;
+
+                isRunning = true;
             }
         }
     }
