@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
 
+    public bool moveWithKinect = true;
+    public bool moveWithMouseAndKeyboard = true;
     public float timeBetweenMoves = 0.3333f;
     private float timestamp;
     public float interpolationSpeed = 10.0F;
@@ -45,20 +47,19 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (Time.time >= timestamp)
         {
-            if (gestureListener.IsRunning())
+            if ((moveWithKinect && gestureListener.IsRunning())||(moveWithMouseAndKeyboard && Input.GetKeyDown(KeyCode.W)))
             {
                 UpdateRotationAndDesiredPosition("up");
                 timestamp = Time.time + timeBetweenMoves;
             }
-            else if (gestureListener.IsLeftHandRaised())
+            else if ((moveWithKinect && gestureListener.IsLeftHandRaised()) || (moveWithMouseAndKeyboard && Input.GetKeyDown(KeyCode.A)))
             {
 
                 FixPlayerRotation("left");
                 timestamp = Time.time + timeBetweenMoves;
             }
-            else if (gestureListener.IsRightHandRaised())
+            else if ((moveWithKinect && gestureListener.IsRightHandRaised()) || (moveWithMouseAndKeyboard && Input.GetKeyDown(KeyCode.D)))
             {
-
                 FixPlayerRotation("right");
                 timestamp = Time.time + timeBetweenMoves;
             }

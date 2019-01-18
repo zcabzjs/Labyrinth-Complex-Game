@@ -28,7 +28,7 @@ public class LabyrinthNavigation : MonoBehaviour {
     //public Transform playerPrefab;
 
     // Use this for initialization
-    void Start () {
+    public void InitiateLabyrinth () {
 
         int length = UnityEngine.Random.Range(pathLength+5, pathLength + 10);
         int width = UnityEngine.Random.Range(pathLength+5, pathLength + 10);
@@ -341,6 +341,7 @@ public class LabyrinthNavigation : MonoBehaviour {
                     // Currently using the normal door obstacle (Might change to a golden door to signify the end)
                     labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X].obstacle = Instantiate(obstaclePrefabs[0], new Vector3(wayPoints[i].point.X + 0.5f, 0, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as Obstacle;
                 }
+
                 else
                 {
                     labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X] = Instantiate(labyrinthGridPrefabs[UnityEngine.Random.Range(0, labyrinthGridPrefabs.Length)], new Vector3(wayPoints[i].point.X + 0.5f, 0, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as LabyrinthGrid;
@@ -380,12 +381,12 @@ public class LabyrinthNavigation : MonoBehaviour {
             }
         }
 
-        for(int i = 0; i < randomNumbers.Count; i++)
+        /*for(int i = 0; i < randomNumbers.Count; i++)
         {
             Debug.Log(randomNumbers[i]);
         }
 
-        Debug.Log("Waypoint count: " + wayPoints.Count);
+        Debug.Log("Waypoint count: " + wayPoints.Count);*/
 
         for(int i = 0; i < randomNumbers.Count; i++)
         {
@@ -406,7 +407,7 @@ public class LabyrinthNavigation : MonoBehaviour {
     {
         int y = (int)Math.Floor(positionToCheck.x);
         int x = (int)Math.Floor(positionToCheck.z);
-        if (IsValid(x, y))
+        if (IsValid(x, y) && IsEmpty(x, y))
         {
             labyrinthGrids[x, y].InteractWithObstacle(instruction);
         }
