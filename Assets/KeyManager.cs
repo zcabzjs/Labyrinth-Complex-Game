@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class KeyManager : MonoBehaviour {
 
@@ -16,6 +17,8 @@ public class KeyManager : MonoBehaviour {
 
     // List that stores the number of keys generated
     public List<string> initialKeyArray = new List<string>();
+
+    public TextMeshProUGUI displayKeyText;
 
     public void GenerateKeys()
     {
@@ -34,5 +37,11 @@ public class KeyManager : MonoBehaviour {
                 }
             }
         }
+        UpdateDisplayKeyText();
+    }
+
+    void UpdateDisplayKeyText()
+    {
+        displayKeyText.text = string.Join(",", initialKeyArray.ToArray());
     }
 }

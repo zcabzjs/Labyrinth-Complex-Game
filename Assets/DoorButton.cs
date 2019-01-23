@@ -7,13 +7,41 @@ public class DoorButton : MonoBehaviour {
 
     TextMeshPro buttonText;
 
+    Animator anim;
+
+    bool clicked = false;
+
+    private void Start()
+    {
+        anim = GetComponent<Animator>();
+    }
+
     public void DoorButtonPressed()
     {
         // Check if button can still be activated
-        // Check with door to see if the input is correct or wrong
-        DoorObstacleWithButton doorObstacleWithButton = GetComponentInParent<DoorObstacleWithButton>();
-        doorObstacleWithButton.CheckButtonAnswer(buttonText.text);
-        Debug.Log("Pushed " + buttonText.text);
+        if (!clicked)
+        {
+            anim.SetTrigger("pressButton");
+            clicked = true;
+            DoorButtonTrigger doorButtonTrigger = GetComponentInChildren<DoorButtonTrigger>();
+            doorButtonTrigger.DeactivateTrigger();
+            // Check with door to see if the input is correct or wrong
+            DoorObstacleWithButton doorObstacleWithButton = GetComponentInParent<DoorObstacleWithButton>();
+            if (doorObstacleWithButton.CheckButtonAnswer(buttonText.text))
+            {
+                GameObject indicator = transform.GetChild(0).GetChild(0).gameObject;
+                indicator.SetActive(true);
+                Debug.Log("Returns true");
+
+            }
+            else
+            {
+                GameObject indicator = transform.GetChild(0).GetChild(1).gameObject;
+                indicator.SetActive(true);
+                Debug.Log("Returns false");
+            }
+        }
+
         // If wrong, do something
 
         // If right, do something

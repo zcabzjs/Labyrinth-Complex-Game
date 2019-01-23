@@ -267,8 +267,10 @@ public class LabyrinthNavigation : MonoBehaviour {
     public LabyrinthGrid labyrinthLeftCornerGridPrefab;
     public LabyrinthGrid labyrinthRightCornerGridPrefab;
     public LabyrinthGrid labyrinthTreasureRoomGridPrefab;
+    public LabyrinthGrid startinglabyrinthRoomPrefab;
     public LabyrinthGrid[] labyrinthGridPrefabs;
     public Obstacle[] obstaclePrefabs;
+    public Obstacle startingRoomObstaclePrefab;
 
     private void MarkDirectionForWaypoints()
     {
@@ -341,10 +343,19 @@ public class LabyrinthNavigation : MonoBehaviour {
                     // Currently using the normal door obstacle (Might change to a golden door to signify the end)
                     labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X].obstacle = Instantiate(obstaclePrefabs[0], new Vector3(wayPoints[i].point.X + 0.5f, 0, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as Obstacle;
                 }
-
+                // Introduce the 1st room, some UI that invites player in, sequence to remember etc...
+                else if(i == 0)
+                {
+                    labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X] = Instantiate(startinglabyrinthRoomPrefab, new Vector3(wayPoints[i].point.X, 0, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as LabyrinthGrid;
+                }
                 else
                 {
                     labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X] = Instantiate(labyrinthGridPrefabs[UnityEngine.Random.Range(0, labyrinthGridPrefabs.Length)], new Vector3(wayPoints[i].point.X + 0.5f, 0, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as LabyrinthGrid;
+                    if(i == 1)
+                    {
+                        // Instantiate the door for the starting room 
+                        labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X].obstacle = Instantiate(startingRoomObstaclePrefab, new Vector3(wayPoints[i].point.X + 0.5f, 0, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as Obstacle;
+                    }
                 }
             }
             if (i == 0)
@@ -373,7 +384,8 @@ public class LabyrinthNavigation : MonoBehaviour {
             {
                 int newRandomNumber = UnityEngine.Random.Range(0, pathLength);
                 int numberToBeAddedToList = newRandomNumber * 2 + 1;
-                if (!randomNumbers.Contains(numberToBeAddedToList))
+                // Have to exclude 1st, as the 1st obstacle is the starting door to introduce the game
+                if (!randomNumbers.Contains(numberToBeAddedToList) && numberToBeAddedToList != 1)
                 {
                     randomNumbers.Add(numberToBeAddedToList);
                     randomNumberGenerated = true;
@@ -390,8 +402,7 @@ public class LabyrinthNavigation : MonoBehaviour {
 
         for(int i = 0; i < randomNumbers.Count; i++)
         {
-            labyrinthGrids[wayPoints[randomNumbers[i]].point.Z, wayPoints[randomNumbers[i]].point.X].obstacle = Instantiate(obstaclePrefabs[UnityEngine.Random.Range(0, obstaclePrefabs.Length)], new Vector3(wayPoints[randomNumbers[i]].point.X + 0.5f, 0, wayPoints[randomNumbers[i]].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[randomNumbers[i]].fromDirection * 90, 0)) as Obstacle;
-            
+            labyrinthGrids[wayPoints[randomNumbers[i]].point.Z, wayPoints[randomNumbers[i]].point.X].obstacle = Instantiate(obstaclePrefabs[UnityEngine.Random.Range(0, obstaclePrefabs.Length)], new Vector3(wayPoints[randomNumbers[i]].point.X + 0.5f, 0, wayPoints[randomNumbers[i]].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[randomNumbers[i]].fromDirection * 90, 0)) as Obstacle;         
         }
     }
 
