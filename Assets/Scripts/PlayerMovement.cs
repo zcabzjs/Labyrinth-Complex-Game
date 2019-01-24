@@ -94,45 +94,29 @@ public class PlayerMovement : MonoBehaviour {
 
     void UpdateRotationAndDesiredPosition(string direction)
     {
-        switch (playerCurrentRotation)
+        if (CanNavigateLabyrinth(playerCurrentRotation))
         {
-            case 0:
-                if(CanNavigateLabyrinth(playerCurrentRotation))
-                {
-                    FixPlayerRotation(direction);
+            FixPlayerRotation(direction);
+            switch (playerCurrentRotation)
+            {
+                case 0:
                     desiredPosition += Vector3.forward;
-                    labyrinth.VisitedGrid(desiredPosition);
-                }
-                break;
-            case 1:
-                if (CanNavigateLabyrinth(playerCurrentRotation))
-                {
-                    FixPlayerRotation(direction);
+                    break;
+                case 1:
                     desiredPosition += Vector3.right;
-                    labyrinth.VisitedGrid(desiredPosition);
-                }
-                break;
-            case 2:
-                if (CanNavigateLabyrinth(playerCurrentRotation))
-                {
-                    FixPlayerRotation(direction);
+                    break;
+                case 2:
                     desiredPosition += Vector3.back;
-                    labyrinth.VisitedGrid(desiredPosition);
-                }         
-                break;
-            case 3:
-                if (CanNavigateLabyrinth(playerCurrentRotation))
-                {
-                    FixPlayerRotation(direction);
+                    break;
+                case 3:
                     desiredPosition += Vector3.left;
-                    labyrinth.VisitedGrid(desiredPosition);
-                }
-                break;
-            default:
-                Debug.Log("FIX ME. Direction doesn't exist.");
-                break;
+                    break;
+                default:
+                    Debug.Log("FIX ME. Direction doesn't exist.");
+                    break;
+            }
+            labyrinth.VisitedGrid(desiredPosition);
         }
-
     }
 
     private bool CanNavigateLabyrinth(int direction)
