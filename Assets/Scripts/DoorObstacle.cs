@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DoorObstacle : Obstacle {
 
+    string obstacleInstruction = "Push to open the door";
+
     Animator anim;
     public bool animationPlaying;
     public float animationTime = 1f;
@@ -27,5 +29,10 @@ public class DoorObstacle : Obstacle {
         anim.SetTrigger("PushDoor");
         yield return new WaitForSeconds(animationTime);
         isCleared = true;
+    }
+
+    public override void UpdateInstructionForObstacle()
+    {
+        //UIManager.UpdateInstruction(obstacleInstruction);
     }
 }

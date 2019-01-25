@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class DoorObstacleWithButton : Obstacle {
 
+    string obstacleInstruction = "Touch the targets with the numbers in the original sequence.";
+    string completeText = "Push door to proceed";
+
     int numberOfButtonsOnDoor = 7; // Number of buttons on door
     int minimumNumberOfCorrectAnswers = 1; // Number of correct answers minimum
 
@@ -32,10 +35,12 @@ public class DoorObstacleWithButton : Obstacle {
 
     Component[] doorButtons;
 
+    UIManager uiManager;
+
     // Use this for initialization
     void Start () {
         anim = GetComponent<Animator>();
-
+        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         // Call initialise here
         Initialise();
     }
@@ -147,6 +152,8 @@ public class DoorObstacleWithButton : Obstacle {
             if (IsAnswersComplete())
             {
                 PushButtons();
+                uiManager.UpdateInstruction(completeText);
+
             }
             return true;
         }
@@ -180,6 +187,7 @@ public class DoorObstacleWithButton : Obstacle {
         anim.SetTrigger("PushDoor");
         yield return new WaitForSeconds(animationTime);
         isCleared = true;
+        uiManager.FadeInstruction();
     }
 
     void GenerateCorrectAnswers()
@@ -192,5 +200,11 @@ public class DoorObstacleWithButton : Obstacle {
                 correctAnswers.Add(choicesToPutOnButton[i]);
             }
         }
+    }
+
+    public override void UpdateInstructionForObstacle()
+    {
+        //Nothing..
+        uiManager.UpdateInstruction(obstacleInstruction);
     }
 }

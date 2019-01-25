@@ -7,7 +7,7 @@ public class LabyrinthNavigation : MonoBehaviour {
 
     public char[,] labyrinthArray;
 
-    
+    public int totalGridsVisited = 1;
 
     public int pathLength = 8;
 
@@ -24,6 +24,8 @@ public class LabyrinthNavigation : MonoBehaviour {
     // Note to self: Waypoints follow the Unity coordinates, so (0,1) is actually 0 on X axis and 1 on Z axis
     List<WayPoint> wayPoints;
 
+    public UIManager uiManager;
+
     // Player prefab to be instantiated
     //public Transform playerPrefab;
 
@@ -37,12 +39,13 @@ public class LabyrinthNavigation : MonoBehaviour {
 
         labyrinthArray = new char[width, length];
         labyrinthGrids = new LabyrinthGrid[width, length];
+        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
 
         GeneratePath();
         MarkDirectionForWaypoints();
         GenerateLabyrinth();
         GenerateObstacles();
-
+        UpdateProgressSlider();
         // Instantiate the player at the starting point
         //Instantiate(playerPrefab, new Vector3(startingPoint.Z, 0, startingPoint.X), Quaternion.identity);
 
@@ -412,6 +415,10 @@ public class LabyrinthNavigation : MonoBehaviour {
         int x = (int)Math.Floor(positionToCheck.z);
 
         labyrinthGrids[x, y].visited = true;
+        totalGridsVisited++;
+
+        // Update progress slider values
+        uiManager.UpdateProgressSliderValue(totalGridsVisited);
     }
 
     public void InteractWithLabyrinth(Vector3 positionToCheck, string instruction)
@@ -426,5 +433,35 @@ public class LabyrinthNavigation : MonoBehaviour {
         {
             Debug.Log("Coordinates are invalid");
         }
+    }
+
+    public void UpdateUIForNextObstacle(Vector3 positionToCheck)
+    {
+        int y = (int)Math.Floor(positionToCheck.x);
+        int x = (int)Math.Floor(positionToCheck.z);
+        if (IsValid(x, y) && IsEmpty(x, y))
+        {
+            // Interact with the labyrinth to update UI
+            labyrinthGrids[x, y].UpdateUIForObstacle();
+        }
+        else
+        {
+            Debug.Log("Coordinates are invalid ");
+        }
+    }
+
+    public int GetTotalGridsVisited()
+    {
+        return totalGridsVisited;
+    }
+
+    public int GetLengthOfLabyrinth()
+    {
+        return wayPoints.Count;
+    }
+    
+    private void UpdateProgressSlider()
+    {
+        uiManager.UpdateProgressSliderRanges(GetTotalGridsVisited(), GetLengthOfLabyrinth());
     }
 }

@@ -40,4 +40,17 @@ public class LabyrinthGrid : MonoBehaviour {
         }
 
     }
+
+    public void UpdateUIForObstacle()
+    {
+        if(obstacle == null)
+        {
+            return;
+        }
+        else
+        {
+            obstacle.UpdateInstructionForObstacle();
+            // Update UI of obstacle
+        }
+    }
 }

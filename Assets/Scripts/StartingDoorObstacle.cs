@@ -50,4 +50,9 @@ public class StartingDoorObstacle : Obstacle
         i.enabled = false;
         
     }
+
+    public override void UpdateInstructionForObstacle()
+    {
+        throw new System.NotImplementedException();
+    }
 }

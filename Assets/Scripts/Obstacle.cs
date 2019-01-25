@@ -7,5 +7,6 @@ public abstract class Obstacle : MonoBehaviour {
     public bool isCleared = false;
 
     public abstract void InteractWithObstacle(string instruction);
-    
+
+    public abstract void UpdateInstructionForObstacle();
 }

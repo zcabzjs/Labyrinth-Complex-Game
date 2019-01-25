@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        ArrowKeyRotation();
+        PlayerMovementInput();
         transform.position = Vector3.Lerp(transform.position, desiredPosition, interpolationSpeed * Time.deltaTime);
 
         //transform.eulerAngles = new Vector3(0, 90 * playerCurrentRotation, 0);
@@ -43,7 +43,7 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
-    void ArrowKeyRotation()
+    void PlayerMovementInput()
     {
         if (Time.time >= timestamp)
         {
@@ -90,32 +90,62 @@ public class PlayerMovement : MonoBehaviour {
                 break;
         }
         transform.eulerAngles = new Vector3(0, 90 * playerCurrentRotation, 0);
+        UpdateLabyrinthOnPlayerNextObstacle(playerCurrentRotation);
+
     }
 
     void UpdateRotationAndDesiredPosition(string direction)
     {
         if (CanNavigateLabyrinth(playerCurrentRotation))
         {
-            FixPlayerRotation(direction);
+            //FixPlayerRotation(direction);
             switch (playerCurrentRotation)
             {
                 case 0:
                     desiredPosition += Vector3.forward;
+                    
                     break;
                 case 1:
                     desiredPosition += Vector3.right;
+                    
                     break;
                 case 2:
                     desiredPosition += Vector3.back;
+                    
                     break;
                 case 3:
                     desiredPosition += Vector3.left;
+
                     break;
                 default:
                     Debug.Log("FIX ME. Direction doesn't exist.");
                     break;
             }
             labyrinth.VisitedGrid(desiredPosition);
+            UpdateLabyrinthOnPlayerNextObstacle(playerCurrentRotation);
+
+        }
+    }
+
+    private void UpdateLabyrinthOnPlayerNextObstacle(int direction)
+    {
+        switch (direction)
+        {
+            case 0:
+                labyrinth.UpdateUIForNextObstacle(desiredPosition + Vector3.forward);
+                break;
+            case 1:
+                labyrinth.UpdateUIForNextObstacle(desiredPosition + Vector3.right);
+                break;
+            case 2:
+                labyrinth.UpdateUIForNextObstacle(desiredPosition + Vector3.back);
+                break;
+            case 3:
+                labyrinth.UpdateUIForNextObstacle(desiredPosition + Vector3.left);
+                break;
+            default:
+                Debug.Log("FIX ME UpdateLabyrinthOnPlayerNextObstacle");
+                break;
         }
     }
 

@@ -28,4 +28,9 @@ public class PushLeftObstacle : Obstacle {
         yield return new WaitForSeconds(animationTime);
         isCleared = true;
     }
+
+    public override void UpdateInstructionForObstacle()
+    {
+        throw new System.NotImplementedException();
+    }
 }
