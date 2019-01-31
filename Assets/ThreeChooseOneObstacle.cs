@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ThreeChooseOneObstacle : Obstacle
 {
+    [SerializeField]
     List<string> checkedAnswers;
 
     [SerializeField]
@@ -20,18 +21,30 @@ public class ThreeChooseOneObstacle : Obstacle
     [SerializeField]
     string instruction;
 
+    UIManager uiManager;
+
+    Animator anim;
+    public bool animationPlaying;
+    public float animationTime = 1f;
+
     public override void InteractWithObstacle(string instruction)
     {
         if (instruction.Equals("SwipeLeft"))
         {
             // Do something
+            DisplayFrame displayFrame = displayFrames[0] as DisplayFrame;
+            displayFrame.ChooseFrame();
         }
         else if (instruction.Equals("SwipeRight"))
         {
             // Do something
+            DisplayFrame displayFrame = displayFrames[2] as DisplayFrame;
+            displayFrame.ChooseFrame();
         }
         else if (instruction.Equals("SwipeUp")){
             // Do something
+            DisplayFrame displayFrame = displayFrames[1] as DisplayFrame;
+            displayFrame.ChooseFrame();
         }
         else if (instruction.Equals("PushDoor"))
         {
@@ -42,11 +55,14 @@ public class ThreeChooseOneObstacle : Obstacle
 
     public override void UpdateInstructionForObstacle()
     {
-        throw new System.NotImplementedException();
+        uiManager.UpdateInstruction(instruction);
     }
 
     // Use this for initialization
     void Start () {
+        anim = GetComponent<Animator>();
+        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+        displayFrames = GetComponentsInChildren<DisplayFrame>();
         Initialise();
         
     }
@@ -83,11 +99,51 @@ public class ThreeChooseOneObstacle : Obstacle
 
     void SetAnswerText()
     {
-        displayFrames = GetComponentsInChildren<DisplayFrame>();
+        
         for (int i = 0; i < displayFrames.Length; i++)
         {
             DisplayFrame displayFrame = displayFrames[i] as DisplayFrame;
             displayFrame.SetDisplayText(choicesToPutOnButton[i]);
         }
+    }
+
+    // Check if answer put is in the desired answers, and add them into the list if it is correct
+    public bool CheckAnswer(string text)
+    {
+        if (correctAnswers.Contains(text) && !checkedAnswers.Contains(text))
+        {
+            checkedAnswers.Add(text);
+            if (IsAnswersComplete())
+            {
+                ClearObstacle();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    IEnumerator PlayAnimation()
+    {
+        anim.SetTrigger("PushDoor");
+        yield return new WaitForSeconds(animationTime);
+        isCleared = true;
+        uiManager.FadeInstruction();
+    }
+
+    private void ClearObstacle()
+    {
+        Debug.Log("Puzzle complete!");
+        StartCoroutine(PlayAnimation());
+    }
+
+    // Check if answer by player is complete
+    bool IsAnswersComplete()
+    {
+        // Allow door to open if so..
+        if (checkedAnswers.Count == correctAnswers.Count)
+        {
+            return true;
+        }
+        return false;
     }
 }
