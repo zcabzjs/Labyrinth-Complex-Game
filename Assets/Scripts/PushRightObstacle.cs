@@ -15,7 +15,7 @@ public class PushRightObstacle : Obstacle {
 
     public override void InteractWithObstacle(string instruction)
     {
-        if (instruction.Equals("PushRight"))
+        if (instruction.Equals("SwipeRight"))
         {
             // Play animation of thing moving to the left, and then destroyed...
             StartCoroutine(PlayAnimation());

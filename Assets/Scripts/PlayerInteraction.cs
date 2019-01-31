@@ -26,17 +26,21 @@ public class PlayerInteraction : MonoBehaviour {
         if (gestureListener.IsSwipeLeft())
         {
             updatePlayerPositionAndRotation();
-            labyrinth.InteractWithLabyrinth(convertDirectionToVector(playerCurrentPosition, playerCurrentRotation), "PushLeft");
+            labyrinth.InteractWithLabyrinth(convertDirectionToVector(playerCurrentPosition, playerCurrentRotation), "SwipeLeft");
         }
         else if (gestureListener.IsSwipeRight())
         {
             updatePlayerPositionAndRotation();
-            labyrinth.InteractWithLabyrinth(convertDirectionToVector(playerCurrentPosition, playerCurrentRotation), "PushRight");
+            labyrinth.InteractWithLabyrinth(convertDirectionToVector(playerCurrentPosition, playerCurrentRotation), "SwipeRight");
         }
         else if (gestureListener.IsPush())
         {
             updatePlayerPositionAndRotation();
             labyrinth.InteractWithLabyrinth(convertDirectionToVector(playerCurrentPosition, playerCurrentRotation), "PushDoor");
+        }
+        else if (gestureListener.IsSwipeUp())
+        {
+            labyrinth.InteractWithLabyrinth(convertDirectionToVector(playerCurrentPosition, playerCurrentRotation), "SwipeUp");
         }
 	}
 
