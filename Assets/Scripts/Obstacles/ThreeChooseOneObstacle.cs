@@ -82,7 +82,7 @@ public class ThreeChooseOneObstacle : Obstacle
 
     void GenerateQuestion()
     {
-        cognitiveInstruction = new AddTwoNumbersInstruction();
+        cognitiveInstruction = new NumbersOnlyInstruction();
 
 
     }

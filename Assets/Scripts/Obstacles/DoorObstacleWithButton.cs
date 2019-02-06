@@ -124,7 +124,7 @@ public class DoorObstacleWithButton : Obstacle {
     }
 
     // Pops the buttons out to allow player to complete the puzzle
-    public void ActivateButtons()
+    public override void ActivateObstacle()
     {
         for (int i = 0; i < doorButtons.Length; i++)
         {

@@ -13,8 +13,8 @@ public class FloorPadTrigger : MonoBehaviour {
             FloorPad floorPad = GetComponentInParent<FloorPad>();
             floorPad.FloorPadPressed();
             floorPadTriggered = true;
-            DoorObstacleWithButton doorObstacleWithButton = GetComponentInParent<DoorObstacleWithButton>();
-            doorObstacleWithButton.ActivateButtons();
+            Obstacle obstacle = GetComponentInParent<Obstacle>();
+            obstacle.ActivateObstacle();
             Debug.Log("Floor Pad is pressed");
         }
     }

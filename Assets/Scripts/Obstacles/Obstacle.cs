@@ -9,4 +9,6 @@ public abstract class Obstacle : MonoBehaviour {
     public abstract void InteractWithObstacle(string instruction);
 
     public abstract void UpdateInstructionForObstacle();
+
+    virtual public void ActivateObstacle() { }
 }
