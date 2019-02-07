@@ -38,7 +38,7 @@ public class DisplayFrame : MonoBehaviour {
         {
             selected = true;
             // Check with the obstacle
-            ThreeChooseOneObstacle obstacle = GetComponentInParent<ThreeChooseOneObstacle>();
+            Obstacle obstacle = GetComponentInParent<Obstacle>();
 
             // Enable light and change color accordingly
             light.enabled = true;

@@ -108,7 +108,7 @@ public class ThreeChooseOneObstacle : Obstacle
     }
 
     // Check if answer put is in the desired answers, and add them into the list if it is correct
-    public bool CheckAnswer(string text)
+    public override bool CheckAnswer(string text)
     {
         if (correctAnswers.Contains(text) && !checkedAnswers.Contains(text))
         {

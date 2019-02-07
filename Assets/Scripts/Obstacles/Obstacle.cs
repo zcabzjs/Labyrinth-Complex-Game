@@ -11,4 +11,8 @@ public abstract class Obstacle : MonoBehaviour {
     public abstract void UpdateInstructionForObstacle();
 
     virtual public void ActivateObstacle() { }
+
+    virtual public bool CheckAnswer(string answer) {
+        return false;
+    }
 }
