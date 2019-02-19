@@ -42,6 +42,6 @@ public class KeyManager : MonoBehaviour {
 
     void UpdateDisplayKeyText()
     {
-        displayKeyText.text = string.Join(",", initialKeyArray.ToArray());
+        displayKeyText.text = string.Join(" ", initialKeyArray.ToArray());
     }
 }

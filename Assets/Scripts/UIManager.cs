@@ -10,6 +10,9 @@ public class UIManager : MonoBehaviour {
 
     public Slider progressSlider;
 
+    public LevelManager levelManager;
+
+    float TimeTakenToCompleteLevel;
     // Use this for initialization
     void Start () {
         
@@ -29,6 +32,11 @@ public class UIManager : MonoBehaviour {
     public void UpdateProgressSliderValue(int value)
     {
         progressSlider.value = value;
+        if(value >= progressSlider.maxValue)
+        {
+            TimeTakenToCompleteLevel = levelManager.GetTimeTakenToCompleteLevel();
+            // Do some UI stuff here to show that player has reached treasure room
+        }
     }
 
     public void UpdateInstruction(string text)

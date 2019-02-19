@@ -13,12 +13,14 @@ public class StartingDoorObstacle : Obstacle
     public TextMeshProUGUI displayText;
     public TextMeshProUGUI titleText;
     public float fadeTextTime = 1.5f;
+    public LevelManager levelManager;
 
     void Start()
     {
         anim = GetComponentInChildren<Animator>();
         titleText = GameObject.Find("Title Text").GetComponent<TextMeshProUGUI>();
         displayText = GameObject.Find("Display Key Text").GetComponent<TextMeshProUGUI>();
+        levelManager = GameObject.Find("Level Manager").GetComponent<LevelManager>();
     }
 
     public override void InteractWithObstacle(string instruction)
@@ -29,6 +31,7 @@ public class StartingDoorObstacle : Obstacle
             StartCoroutine(PlayAnimation());
             StartCoroutine(FadeTextToZeroAlpha(fadeTextTime, displayText));
             StartCoroutine(FadeTextToZeroAlpha(fadeTextTime, titleText));
+            levelManager.SetStartTime();
         }
     }
 

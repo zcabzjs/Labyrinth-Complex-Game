@@ -221,6 +221,8 @@ public class LabyrinthNavigation : MonoBehaviour {
                 {
                     pathGenerated = true;
                 }
+
+                // To ensure that path generated doesn't converge beforehand
                 if (!IsValidForGeneration(currentPoint.X, currentPoint.Z + 2) && !IsValidForGeneration(currentPoint.X - 2, currentPoint.Z) && !IsValidForGeneration(currentPoint.X, currentPoint.Z + 2) && !IsValidForGeneration(currentPoint.X, currentPoint.Z - 2))
                 {
                     break;
