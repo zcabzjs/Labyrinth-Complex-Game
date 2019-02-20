@@ -276,6 +276,7 @@ public class LabyrinthNavigation : MonoBehaviour {
     public LabyrinthGrid[] labyrinthGridPrefabs;
     public Obstacle[] obstaclePrefabs;
     public Obstacle startingRoomObstaclePrefab;
+    public Obstacle finalObstaclePrefab;
 
     private void MarkDirectionForWaypoints()
     {
@@ -346,7 +347,7 @@ public class LabyrinthNavigation : MonoBehaviour {
                     labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X] = Instantiate(labyrinthTreasureRoomGridPrefab, new Vector3(wayPoints[i].point.X + 0.5f, 0, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as LabyrinthGrid;
 
                     // Currently using the normal door obstacle (Might change to a golden door to signify the end)
-                    labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X].obstacle = Instantiate(obstaclePrefabs[0], new Vector3(wayPoints[i].point.X + 0.5f, 0, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as Obstacle;
+                    labyrinthGrids[wayPoints[i].point.Z, wayPoints[i].point.X].obstacle = Instantiate(finalObstaclePrefab, new Vector3(wayPoints[i].point.X + 0.5f, 0, wayPoints[i].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[i].fromDirection * 90, 0)) as Obstacle;
                 }
                 // Introduce the 1st room, some UI that invites player in, sequence to remember etc...
                 else if(i == 0)
@@ -404,10 +405,14 @@ public class LabyrinthNavigation : MonoBehaviour {
         }
 
         Debug.Log("Waypoint count: " + wayPoints.Count);*/
-
+        int sequenceNumber = 1;
         for(int i = 0; i < randomNumbers.Count; i++)
         {
-            labyrinthGrids[wayPoints[randomNumbers[i]].point.Z, wayPoints[randomNumbers[i]].point.X].obstacle = Instantiate(obstaclePrefabs[UnityEngine.Random.Range(0, obstaclePrefabs.Length)], new Vector3(wayPoints[randomNumbers[i]].point.X + 0.5f, 0, wayPoints[randomNumbers[i]].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[randomNumbers[i]].fromDirection * 90, 0)) as Obstacle;         
+            CognitiveInstruction cognitiveInstruction = new RecallSequenceIndexInstruction(sequenceNumber);
+            sequenceNumber++;
+            CognitiveObstacle c = Instantiate(obstaclePrefabs[UnityEngine.Random.Range(0, obstaclePrefabs.Length)], new Vector3(wayPoints[randomNumbers[i]].point.X + 0.5f, 0, wayPoints[randomNumbers[i]].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[randomNumbers[i]].fromDirection * 90, 0)) as CognitiveObstacle;
+            c.Initialise(cognitiveInstruction);
+            labyrinthGrids[wayPoints[randomNumbers[i]].point.Z, wayPoints[randomNumbers[i]].point.X].obstacle = c;
         }
     }
 

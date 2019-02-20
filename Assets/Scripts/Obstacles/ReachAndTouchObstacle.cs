@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReachAndTouchObstacle : Obstacle {
+public class ReachAndTouchObstacle : CognitiveObstacle
+{
 
     string completeText = "Swipe left to proceed.";
 
@@ -11,9 +12,6 @@ public class ReachAndTouchObstacle : Obstacle {
     DisplayFrame[] frames;
 
     GameObject arrow;
-
-    // Instruction for the obstacle
-    CognitiveInstruction cognitiveInstruction;
 
     [SerializeField]
     List<string> checkedAnswers;
@@ -35,6 +33,7 @@ public class ReachAndTouchObstacle : Obstacle {
     public float animationTime = 1f;
 
     bool firstPhaseCompleted = false;
+    
 
     public override void InteractWithObstacle(string instruction)
     {
@@ -68,8 +67,7 @@ public class ReachAndTouchObstacle : Obstacle {
     void Start () {
         anim = GetComponent<Animator>();
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
-        displayFrames = GetComponentsInChildren<DisplayFrame>();
-        Initialise();
+        
     }
 	
 	// Update is called once per frame
@@ -78,10 +76,10 @@ public class ReachAndTouchObstacle : Obstacle {
     }
 
     // Function is run when object is initialised
-    void Initialise()
+    public override void Initialise(CognitiveInstruction instruction)
     {
         // This function is run when object is initialised
-        GenerateQuestion();
+        GenerateQuestion(instruction);
         GenerateKeyOptions();
         SetAnswerText();
 
@@ -89,9 +87,9 @@ public class ReachAndTouchObstacle : Obstacle {
         HideArrowAndFrames();
     }
 
-    void GenerateQuestion()
+    void GenerateQuestion(CognitiveInstruction instruction)
     {
-        cognitiveInstruction = new NumbersOnlyInstruction();
+        cognitiveInstruction = instruction;
     }
 
     void HideArrow()
@@ -135,7 +133,7 @@ public class ReachAndTouchObstacle : Obstacle {
 
     void SetAnswerText()
     {
-
+        displayFrames = GetComponentsInChildren<DisplayFrame>();
         for (int i = 0; i < displayFrames.Length; i++)
         {
             DisplayFrame displayFrame = displayFrames[i] as DisplayFrame;

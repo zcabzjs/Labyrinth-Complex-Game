@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class StartingDoorObstacle : Obstacle
+public class StartingDoorObstacle: Obstacle
 {
 
     Animator anim;
@@ -14,6 +14,7 @@ public class StartingDoorObstacle : Obstacle
     public TextMeshProUGUI titleText;
     public float fadeTextTime = 1.5f;
     public LevelManager levelManager;
+
 
     void Start()
     {

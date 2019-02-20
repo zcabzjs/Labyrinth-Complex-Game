@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThreeChooseOneObstacle : Obstacle
+public class ThreeChooseOneObstacle : CognitiveObstacle
 {
     [SerializeField]
     List<string> checkedAnswers;
 
     [SerializeField]
     List<string> choicesToPutOnButton;
-
-    // Instruction for the obstacle
-    CognitiveInstruction cognitiveInstruction;
 
     Component[] displayFrames;
 
@@ -26,6 +23,7 @@ public class ThreeChooseOneObstacle : Obstacle
     Animator anim;
     public bool animationPlaying;
     public float animationTime = 1f;
+
 
     public override void InteractWithObstacle(string instruction)
     {
@@ -62,8 +60,8 @@ public class ThreeChooseOneObstacle : Obstacle
     void Start () {
         anim = GetComponent<Animator>();
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
-        displayFrames = GetComponentsInChildren<DisplayFrame>();
-        Initialise();
+        
+        //Initialise();
         
     }
 	
@@ -72,17 +70,17 @@ public class ThreeChooseOneObstacle : Obstacle
 		
 	}
 
-    void Initialise()
+    public override void Initialise(CognitiveInstruction instruction)
     {
         // This function is run when object is initialised
-        GenerateQuestion();
+        GenerateQuestion(instruction);
         GenerateKeyOptions();
         SetAnswerText();
     }
 
-    void GenerateQuestion()
+    void GenerateQuestion(CognitiveInstruction instruction)
     {
-        cognitiveInstruction = new NumbersOnlyInstruction();
+        cognitiveInstruction = instruction;
 
 
     }
@@ -99,7 +97,7 @@ public class ThreeChooseOneObstacle : Obstacle
 
     void SetAnswerText()
     {
-        
+        displayFrames = GetComponentsInChildren<DisplayFrame>();
         for (int i = 0; i < displayFrames.Length; i++)
         {
             DisplayFrame displayFrame = displayFrames[i] as DisplayFrame;
