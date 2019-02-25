@@ -62,8 +62,8 @@ public class AddTwoNumbersInstruction : CognitiveInstruction
 
     public AddTwoNumbersInstruction()
     {
-        first = Random.Range(0, 10);
-        second = Random.Range(0, 10);
+        first = Random.Range(1, 10);
+        second = Random.Range(1, 10);
     }
 
 }

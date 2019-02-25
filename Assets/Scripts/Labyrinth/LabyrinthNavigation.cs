@@ -275,6 +275,7 @@ public class LabyrinthNavigation : MonoBehaviour {
     public LabyrinthGrid startinglabyrinthRoomPrefab;
     public LabyrinthGrid[] labyrinthGridPrefabs;
     public Obstacle[] obstaclePrefabs;
+    public Obstacle[] cognitiveObstaclePrefabs;
     public Obstacle startingRoomObstaclePrefab;
     public Obstacle finalObstaclePrefab;
 
@@ -382,6 +383,7 @@ public class LabyrinthNavigation : MonoBehaviour {
         {
             Debug.Log("Number of obstacles given is longer than the pathLength variable");
         }
+        
 
         for(int i = 0; i < numberOfObstacles; i++)
         {
@@ -399,20 +401,83 @@ public class LabyrinthNavigation : MonoBehaviour {
             }
         }
 
-        /*for(int i = 0; i < randomNumbers.Count; i++)
+        randomNumbers.Sort();
+        for(int i = 0; i < randomNumbers.Count; i++)
         {
             Debug.Log(randomNumbers[i]);
         }
 
-        Debug.Log("Waypoint count: " + wayPoints.Count);*/
+        Debug.Log("Waypoint count: " + wayPoints.Count);
+
+        KeyManager keyManager = GameObject.Find("KeyManager").GetComponent<KeyManager>();
+
+        // Counter used to set obstacles
+        int remainingKeys = keyManager.initialKeyArray.Count;
+        int remainingObstacles = numberOfObstacles - remainingKeys;
+        if(remainingObstacles < 0)
+        {
+            Debug.Log("You need a higher number of obstacles, to recall all keys");
+        }
+
+        // Counter used for recall-sequence-questions
         int sequenceNumber = 1;
+
         for(int i = 0; i < randomNumbers.Count; i++)
         {
-            CognitiveInstruction cognitiveInstruction = new RecallSequenceIndexInstruction(sequenceNumber);
-            sequenceNumber++;
-            CognitiveObstacle c = Instantiate(obstaclePrefabs[UnityEngine.Random.Range(0, obstaclePrefabs.Length)], new Vector3(wayPoints[randomNumbers[i]].point.X + 0.5f, 0, wayPoints[randomNumbers[i]].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[randomNumbers[i]].fromDirection * 90, 0)) as CognitiveObstacle;
-            c.Initialise(cognitiveInstruction);
-            labyrinthGrids[wayPoints[randomNumbers[i]].point.Z, wayPoints[randomNumbers[i]].point.X].obstacle = c;
+            float n = UnityEngine.Random.Range(0, 100);
+            if(n > 50)
+            {
+                if(remainingKeys > 0)
+                {
+                    CognitiveInstruction cognitiveInstruction = new RecallSequenceIndexInstruction(sequenceNumber);
+                    sequenceNumber++;
+                    CognitiveObstacle c = Instantiate(cognitiveObstaclePrefabs[UnityEngine.Random.Range(0, cognitiveObstaclePrefabs.Length)], new Vector3(wayPoints[randomNumbers[i]].point.X + 0.5f, 0, wayPoints[randomNumbers[i]].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[randomNumbers[i]].fromDirection * 90, 0)) as CognitiveObstacle;
+                    c.Initialise(cognitiveInstruction);
+                    labyrinthGrids[wayPoints[randomNumbers[i]].point.Z, wayPoints[randomNumbers[i]].point.X].obstacle = c;
+                    remainingKeys--;
+                }
+                else
+                {
+                    // Choose random question
+                    CognitiveInstruction cognitiveInstruction = new AddTwoNumbersInstruction();
+                    CognitiveObstacle c = Instantiate(cognitiveObstaclePrefabs[UnityEngine.Random.Range(0, cognitiveObstaclePrefabs.Length)], new Vector3(wayPoints[randomNumbers[i]].point.X + 0.5f, 0, wayPoints[randomNumbers[i]].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[randomNumbers[i]].fromDirection * 90, 0)) as CognitiveObstacle;
+                    c.Initialise(cognitiveInstruction);
+                    labyrinthGrids[wayPoints[randomNumbers[i]].point.Z, wayPoints[randomNumbers[i]].point.X].obstacle = c;
+                    remainingObstacles--;
+                }
+            }
+            else
+            {
+                if(remainingObstacles > 0)
+                {
+
+                    // Choose random question and obstacle
+                    float rand = UnityEngine.Random.Range(0, 100);
+                    if (rand < 50)
+                    {
+                        Obstacle c = Instantiate(obstaclePrefabs[UnityEngine.Random.Range(0, obstaclePrefabs.Length)], new Vector3(wayPoints[randomNumbers[i]].point.X + 0.5f, 0, wayPoints[randomNumbers[i]].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[randomNumbers[i]].fromDirection * 90, 0)) as Obstacle;
+                        labyrinthGrids[wayPoints[randomNumbers[i]].point.Z, wayPoints[randomNumbers[i]].point.X].obstacle = c;
+                    }
+                    else
+                    {
+                        CognitiveInstruction cognitiveInstruction = new AddTwoNumbersInstruction();
+                        CognitiveObstacle c = Instantiate(cognitiveObstaclePrefabs[UnityEngine.Random.Range(0, cognitiveObstaclePrefabs.Length)], new Vector3(wayPoints[randomNumbers[i]].point.X + 0.5f, 0, wayPoints[randomNumbers[i]].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[randomNumbers[i]].fromDirection * 90, 0)) as CognitiveObstacle;
+                        c.Initialise(cognitiveInstruction);
+                        labyrinthGrids[wayPoints[randomNumbers[i]].point.Z, wayPoints[randomNumbers[i]].point.X].obstacle = c;
+                    }
+                    
+                    remainingObstacles--;
+                }
+                else
+                {
+                    CognitiveInstruction cognitiveInstruction = new RecallSequenceIndexInstruction(sequenceNumber);
+                    sequenceNumber++;
+                    CognitiveObstacle c = Instantiate(cognitiveObstaclePrefabs[UnityEngine.Random.Range(0, cognitiveObstaclePrefabs.Length)], new Vector3(wayPoints[randomNumbers[i]].point.X + 0.5f, 0, wayPoints[randomNumbers[i]].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[randomNumbers[i]].fromDirection * 90, 0)) as CognitiveObstacle;
+                    c.Initialise(cognitiveInstruction);
+                    labyrinthGrids[wayPoints[randomNumbers[i]].point.Z, wayPoints[randomNumbers[i]].point.X].obstacle = c;
+                    remainingKeys--;
+                }
+            }
         }
     }
 

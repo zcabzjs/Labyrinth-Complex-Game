@@ -8,6 +8,8 @@ public class LevelManager : MonoBehaviour {
 
     public KeyManager keyManager;
 
+    public Victory victoryManager;
+
     // Keep track of time here..
     public float timeToCompleteLevel;
     float startTime;
@@ -34,4 +36,9 @@ public class LevelManager : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public void PlayerVictory()
+    {
+        victoryManager.PlayerVictory();
+    }
 }

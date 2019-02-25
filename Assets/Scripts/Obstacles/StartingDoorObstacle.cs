@@ -6,21 +6,17 @@ using UnityEngine.UI;
 
 public class StartingDoorObstacle: Obstacle
 {
-
-    Animator anim;
+    Animator doorAnim;
     public bool animationPlaying;
     public float animationTime = 1f;
-    public TextMeshProUGUI displayText;
-    public TextMeshProUGUI titleText;
-    public float fadeTextTime = 1.5f;
-    public LevelManager levelManager;
-
+    
+    LevelManager levelManager;
+    UIManager uiManager;
 
     void Start()
     {
-        anim = GetComponentInChildren<Animator>();
-        titleText = GameObject.Find("Title Text").GetComponent<TextMeshProUGUI>();
-        displayText = GameObject.Find("Display Key Text").GetComponent<TextMeshProUGUI>();
+        doorAnim = GetComponentInChildren<Animator>();
+        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         levelManager = GameObject.Find("Level Manager").GetComponent<LevelManager>();
     }
 
@@ -30,30 +26,19 @@ public class StartingDoorObstacle: Obstacle
         {
             // Play animation of thing moving to the left, and then destroyed...
             StartCoroutine(PlayAnimation());
-            StartCoroutine(FadeTextToZeroAlpha(fadeTextTime, displayText));
-            StartCoroutine(FadeTextToZeroAlpha(fadeTextTime, titleText));
+            uiManager.FadeTitleAndKey();
+            uiManager.FadeInstruction();
             levelManager.SetStartTime();
         }
     }
 
     IEnumerator PlayAnimation()
     {
-        anim.SetTrigger("PushDoor");
+        doorAnim.SetTrigger("PushDoor");
         yield return new WaitForSeconds(animationTime);
         isCleared = true;
     }
 
-    public IEnumerator FadeTextToZeroAlpha(float t, TextMeshProUGUI i)
-    {
-        i.color = new Color(i.color.r, i.color.g, i.color.b, 1);
-        while (i.color.a > 0.0f)
-        {
-            i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a - (Time.deltaTime / t));
-            yield return null;
-        }
-        i.enabled = false;
-        
-    }
 
     public override void UpdateInstructionForObstacle()
     {
