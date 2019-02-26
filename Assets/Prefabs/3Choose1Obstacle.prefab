@@ -7207,6 +7207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCleared: 0
+  instructionText: Swipe your hand in the direction of the arrow of the right answers.
   checkedAnswers: []
   choicesToPutOnButton: []
   correctAnswers: []

@@ -6,14 +6,27 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
 
+    // Instruction UI
     public Image instructionFrame;
     public Image instructionImage;
+    public TextMeshProUGUI instructionText;
 
+    // Title UI
     public Image titleFrame;
     public Image titleImage;
-    public Image displayKeyImage;
+    public TextMeshProUGUI titleText;
 
-    public TextMeshProUGUI instructionText;
+    // UI for keys
+    public Image displayKeyImage;
+    public TextMeshProUGUI displayText;
+
+    // Question UI
+    public Image questionFrame;
+    public Image questionImage;
+    public TextMeshProUGUI questionText;
+
+    // Time text
+    public TextMeshProUGUI timeText;
 
     public Slider progressSlider;
 
@@ -21,19 +34,40 @@ public class UIManager : MonoBehaviour {
 
     public GameObject titlePanel;
 
-    public TextMeshProUGUI displayText;
-    public TextMeshProUGUI titleText;
+
+
     float fadeTextTime = 0.2f;
     float TimeTakenToCompleteLevel;
     // Use this for initialization
     void Start () {
-        
-	}
+        // Fade question panel at start of game?
+        questionFrame.color = new Color(instructionFrame.color.r, instructionFrame.color.g, instructionFrame.color.b, 0);
+        questionImage.color = new Color(instructionImage.color.r, instructionImage.color.g, instructionImage.color.b, 0);
+        questionText.color = new Color(instructionText.color.r, instructionText.color.g, instructionText.color.b, 0);
+    }
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+
+    public void UpdateQuestion(string text)
+    {
+        questionFrame.enabled = true;
+        questionImage.enabled = true;
+        questionFrame.color = new Color(instructionFrame.color.r, instructionFrame.color.g, instructionFrame.color.b, 1);
+        questionImage.color = new Color(instructionImage.color.r, instructionImage.color.g, instructionImage.color.b, 1);
+        questionText.enabled = true;
+        questionText.color = new Color(instructionText.color.r, instructionText.color.g, instructionText.color.b, 1);
+        questionText.text = text;
+    }
+
+    public void FadeQuestion()
+    {
+        StartCoroutine(FadeImage(fadeTextTime, questionFrame));
+        StartCoroutine(FadeImage(fadeTextTime, questionImage));
+        StartCoroutine(FadeTextToZeroAlpha(fadeTextTime, questionText));
+    }
 
     public void FadeTitleAndKey()
     {
@@ -56,7 +90,6 @@ public class UIManager : MonoBehaviour {
         progressSlider.value = value;
         if(value >= progressSlider.maxValue)
         {
-            TimeTakenToCompleteLevel = levelManager.GetTimeTakenToCompleteLevel();
             // Do some UI stuff here to show that player has reached treasure room
 
             levelManager.PlayerVictory();
@@ -67,8 +100,8 @@ public class UIManager : MonoBehaviour {
     {
         instructionFrame.enabled = true;
         instructionImage.enabled = true;
-        instructionFrame.color = new Color(instructionFrame.color.r, instructionFrame.color.b, instructionFrame.color.g, 1);
-        instructionImage.color = new Color(instructionImage.color.r, instructionImage.color.b, instructionImage.color.g, 1);
+        instructionFrame.color = new Color(instructionFrame.color.r, instructionFrame.color.g, instructionFrame.color.b, 1);
+        instructionImage.color = new Color(instructionImage.color.r, instructionImage.color.g, instructionImage.color.b, 1);
         instructionText.enabled = true;
         instructionText.color = new Color(instructionText.color.r, instructionText.color.g, instructionText.color.b, 1);
         instructionText.text = text;
@@ -103,5 +136,13 @@ public class UIManager : MonoBehaviour {
             yield return null;
         }
         i.enabled = false;
+    }
+
+    public void SetEndTime(float time)
+    {
+        int minutes = Mathf.FloorToInt(time / 60F);
+        int seconds = Mathf.FloorToInt(time - minutes * 60);
+        string niceTime = string.Format("{0:0}m{1:00}s", minutes, seconds);
+        timeText.text = niceTime;
     }
 }

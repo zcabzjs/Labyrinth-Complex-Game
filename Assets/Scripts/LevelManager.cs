@@ -25,7 +25,7 @@ public class LevelManager : MonoBehaviour {
         startTime = Time.timeSinceLevelLoad;
     }
 
-    public float GetTimeTakenToCompleteLevel()
+    private float GetTimeTakenToCompleteLevel()
     {
         endTime = Time.timeSinceLevelLoad;
         timeToCompleteLevel = endTime - startTime;
@@ -39,6 +39,7 @@ public class LevelManager : MonoBehaviour {
 
     public void PlayerVictory()
     {
-        victoryManager.PlayerVictory();
+        float timeTaken = GetTimeTakenToCompleteLevel();
+        victoryManager.PlayerVictory(timeTaken);
     }
 }

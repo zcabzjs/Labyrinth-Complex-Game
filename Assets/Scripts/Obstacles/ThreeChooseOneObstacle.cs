@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ThreeChooseOneObstacle : CognitiveObstacle
 {
+
+    public string instructionText = "Swipe your hand in the direction of the arrow of the right answers.";
+
     [SerializeField]
     List<string> checkedAnswers;
 
@@ -44,16 +47,13 @@ public class ThreeChooseOneObstacle : CognitiveObstacle
             DisplayFrame displayFrame = displayFrames[1] as DisplayFrame;
             displayFrame.ChooseFrame();
         }
-        else if (instruction.Equals("PushDoor"))
-        {
-            // Check if player allowed to go through (puzzle is completed)
-        }
         
     }
 
     public override void UpdateInstructionForObstacle()
     {
-        uiManager.UpdateInstruction(instruction);
+        uiManager.UpdateQuestion(instruction);
+        uiManager.UpdateInstruction(instructionText);
     }
 
     // Use this for initialization
@@ -126,6 +126,7 @@ public class ThreeChooseOneObstacle : CognitiveObstacle
         yield return new WaitForSeconds(animationTime);
         isCleared = true;
         uiManager.FadeInstruction();
+        uiManager.FadeQuestion();
     }
 
     private void ClearObstacle()

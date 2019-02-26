@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class DoorObstacleWithButton : Obstacle {
 
-    string obstacleInstruction = "Touch the targets with the numbers in the original sequence.";
+    string obstacleInstruction = "Touch the targets with the characters in the original sequence.";
     string completeText = "Push door to proceed";
+    string obstacleQuestion = "Which characters appeared in the original sequence?";
+    string startingInstruction = "Step on the footpad to start the puzzle.";
 
     int numberOfButtonsOnDoor = 7; // Number of buttons on door
     int minimumNumberOfCorrectAnswers = 1; // Number of correct answers minimum
@@ -131,6 +133,8 @@ public class DoorObstacleWithButton : Obstacle {
             DoorButton doorButton = doorButtons[i] as DoorButton;
             doorButton.PopButton();
         }
+        uiManager.UpdateQuestion(obstacleQuestion);
+        uiManager.UpdateInstruction(obstacleInstruction);
     }
 
     // Pushes the buttons in to show player has completed puzzle
@@ -151,9 +155,10 @@ public class DoorObstacleWithButton : Obstacle {
             checkedAnswers.Add(text);
             if (IsAnswersComplete())
             {
+                
                 PushButtons();
                 uiManager.UpdateInstruction(completeText);
-
+                uiManager.FadeQuestion();
             }
             return true;
         }
@@ -205,6 +210,7 @@ public class DoorObstacleWithButton : Obstacle {
     public override void UpdateInstructionForObstacle()
     {
         //Nothing..
-        uiManager.UpdateInstruction(obstacleInstruction);
+        uiManager.UpdateInstruction(startingInstruction);
+        
     }
 }

@@ -6,6 +6,7 @@ public class ReachAndTouchObstacle : CognitiveObstacle
 {
 
     string completeText = "Swipe left to proceed.";
+    string instructionText = "Touch the pads with the right answers";
 
     UIManager uiManager;
 
@@ -61,7 +62,8 @@ public class ReachAndTouchObstacle : CognitiveObstacle
             frames[i].gameObject.SetActive(true);
         }
         // Set question here....
-        uiManager.UpdateInstruction(instruction);
+        uiManager.UpdateQuestion(instruction);
+        uiManager.UpdateInstruction(instructionText);
     }
     // Use this for initialization
     void Start () {
@@ -181,6 +183,7 @@ public class ReachAndTouchObstacle : CognitiveObstacle
         HideFrames();
         ShowArrow();
         uiManager.UpdateInstruction(completeText);
+        uiManager.FadeQuestion();
         firstPhaseCompleted = true;
     }
 

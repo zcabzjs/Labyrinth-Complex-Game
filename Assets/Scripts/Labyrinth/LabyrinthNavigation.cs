@@ -26,6 +26,8 @@ public class LabyrinthNavigation : MonoBehaviour {
 
     public UIManager uiManager;
 
+    public QuestionGenerator questionGenerator;
+
     // Player prefab to be instantiated
     //public Transform playerPrefab;
 
@@ -439,7 +441,7 @@ public class LabyrinthNavigation : MonoBehaviour {
                 else
                 {
                     // Choose random question
-                    CognitiveInstruction cognitiveInstruction = new AddTwoNumbersInstruction();
+                    CognitiveInstruction cognitiveInstruction = questionGenerator.GenerateQuestion();
                     CognitiveObstacle c = Instantiate(cognitiveObstaclePrefabs[UnityEngine.Random.Range(0, cognitiveObstaclePrefabs.Length)], new Vector3(wayPoints[randomNumbers[i]].point.X + 0.5f, 0, wayPoints[randomNumbers[i]].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[randomNumbers[i]].fromDirection * 90, 0)) as CognitiveObstacle;
                     c.Initialise(cognitiveInstruction);
                     labyrinthGrids[wayPoints[randomNumbers[i]].point.Z, wayPoints[randomNumbers[i]].point.X].obstacle = c;
@@ -460,7 +462,8 @@ public class LabyrinthNavigation : MonoBehaviour {
                     }
                     else
                     {
-                        CognitiveInstruction cognitiveInstruction = new AddTwoNumbersInstruction();
+
+                        CognitiveInstruction cognitiveInstruction = questionGenerator.GenerateQuestion();
                         CognitiveObstacle c = Instantiate(cognitiveObstaclePrefabs[UnityEngine.Random.Range(0, cognitiveObstaclePrefabs.Length)], new Vector3(wayPoints[randomNumbers[i]].point.X + 0.5f, 0, wayPoints[randomNumbers[i]].point.Z + 0.5f), Quaternion.Euler(0, wayPoints[randomNumbers[i]].fromDirection * 90, 0)) as CognitiveObstacle;
                         c.Initialise(cognitiveInstruction);
                         labyrinthGrids[wayPoints[randomNumbers[i]].point.Z, wayPoints[randomNumbers[i]].point.X].obstacle = c;

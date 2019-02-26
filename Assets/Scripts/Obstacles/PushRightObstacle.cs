@@ -8,9 +8,12 @@ public class PushRightObstacle : Obstacle {
     public bool animationPlaying;
     public float animationTime = 1f;
 
+    UIManager uiManager;
+
     void Start()
     {
         anim = GetComponent<Animator>();
+        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
     }
 
     public override void InteractWithObstacle(string instruction)
@@ -27,10 +30,11 @@ public class PushRightObstacle : Obstacle {
         anim.SetTrigger("PushRight");
         yield return new WaitForSeconds(animationTime);
         isCleared = true;
+        uiManager.FadeInstruction();
     }
 
     public override void UpdateInstructionForObstacle()
     {
-        throw new System.NotImplementedException();
+        uiManager.UpdateInstruction("Swipe in the direction of the arrow.");
     }
 }

@@ -7,10 +7,11 @@ public class PushLeftObstacle : Obstacle {
     Animator anim;
     public bool animationPlaying;
     public float animationTime = 1f;
-
+    UIManager uiManager;
     void Start()
     {
         anim = GetComponent<Animator>();
+        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
     }
 
     public override void InteractWithObstacle(string instruction)
@@ -31,6 +32,6 @@ public class PushLeftObstacle : Obstacle {
 
     public override void UpdateInstructionForObstacle()
     {
-        throw new System.NotImplementedException();
+        uiManager.UpdateInstruction("Swipe in the direction of the arrow.");
     }
 }
