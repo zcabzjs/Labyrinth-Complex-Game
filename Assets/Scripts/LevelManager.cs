@@ -8,10 +8,12 @@ public class LevelManager : MonoBehaviour {
 
     public KeyManager keyManager;
 
+    public ScoreManager scoreManager;
+
     public Victory victoryManager;
 
     // Keep track of time here..
-    public float timeToCompleteLevel;
+    float timeToCompleteLevel;
     float startTime;
     float endTime;
 	// Use this for initialization
@@ -40,6 +42,7 @@ public class LevelManager : MonoBehaviour {
     public void PlayerVictory()
     {
         float timeTaken = GetTimeTakenToCompleteLevel();
-        victoryManager.PlayerVictory(timeTaken);
+        int endScore = scoreManager.GetEndScore();
+        victoryManager.PlayerVictory(timeTaken, endScore);
     }
 }

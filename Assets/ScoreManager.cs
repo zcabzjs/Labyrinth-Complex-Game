@@ -34,6 +34,11 @@ public class ScoreManager : MonoBehaviour {
             // Play sound when points update
         }
     }
+    
+    public int GetEndScore()
+    {
+        return currentScore;
+    }
 
     public void UpdateScore(int scoreStatus)
     {
@@ -47,7 +52,7 @@ public class ScoreManager : MonoBehaviour {
                 currentScore += 50;
                 break;
             default:
-                currentScore += 80;
+                currentScore += 50;
                 break;
 
         }

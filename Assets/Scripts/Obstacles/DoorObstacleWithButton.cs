@@ -39,10 +39,15 @@ public class DoorObstacleWithButton : Obstacle {
 
     UIManager uiManager;
 
+    ScoreManager scoreManager;
+
+    bool wrongAnswerSelected = false;
+
     // Use this for initialization
     void Start () {
         anim = GetComponent<Animator>();
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+        scoreManager = GameObject.Find("Score Manager").GetComponent<ScoreManager>();
         // Call initialise here
         Initialise();
     }
@@ -159,8 +164,21 @@ public class DoorObstacleWithButton : Obstacle {
                 PushButtons();
                 uiManager.UpdateInstruction(completeText);
                 uiManager.FadeQuestion();
+
+                if (!wrongAnswerSelected)
+                {
+                    scoreManager.UpdateScore(1);
+                }
+                else
+                {
+                    scoreManager.UpdateScore(2);
+                }
             }
             return true;
+        }
+        if (!correctAnswers.Contains(text))
+        {
+            wrongAnswerSelected = true;
         }
         return false;
     }
@@ -193,6 +211,8 @@ public class DoorObstacleWithButton : Obstacle {
         yield return new WaitForSeconds(animationTime);
         isCleared = true;
         uiManager.FadeInstruction();
+
+
     }
 
     void GenerateCorrectAnswers()

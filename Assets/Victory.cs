@@ -9,10 +9,10 @@ public class Victory : MonoBehaviour {
     public UIManager uiManager;
 
 	// Use this for initialization
-	public void PlayerVictory(float timeTaken)
+	public void PlayerVictory(float timeTaken, int score)
     {
         // Set score maybe...
-
+        uiManager.SetEndScore(score);
         // Set time maybe...
         uiManager.SetEndTime(timeTaken);
         Animator anim = victoryUI.GetComponent<Animator>();

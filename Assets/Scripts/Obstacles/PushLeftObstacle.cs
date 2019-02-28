@@ -8,10 +8,12 @@ public class PushLeftObstacle : Obstacle {
     public bool animationPlaying;
     public float animationTime = 1f;
     UIManager uiManager;
+    ScoreManager scoreManager;
     void Start()
     {
         anim = GetComponent<Animator>();
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+        scoreManager = GameObject.Find("Score Manager").GetComponent<ScoreManager>();
     }
 
     public override void InteractWithObstacle(string instruction)
@@ -28,6 +30,8 @@ public class PushLeftObstacle : Obstacle {
         anim.SetTrigger("PushLeft");
         yield return new WaitForSeconds(animationTime);
         isCleared = true;
+        scoreManager.UpdateScore(5);
+        uiManager.FadeInstruction();
     }
 
     public override void UpdateInstructionForObstacle()

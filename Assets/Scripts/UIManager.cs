@@ -28,6 +28,9 @@ public class UIManager : MonoBehaviour {
     // Time text
     public TextMeshProUGUI timeText;
 
+    // Score text
+    public TextMeshProUGUI scoreText;
+
     public Slider progressSlider;
 
     public LevelManager levelManager;
@@ -144,5 +147,10 @@ public class UIManager : MonoBehaviour {
         int seconds = Mathf.FloorToInt(time - minutes * 60);
         string niceTime = string.Format("{0:0}m{1:00}s", minutes, seconds);
         timeText.text = niceTime;
+    }
+
+    public void SetEndScore(int score)
+    {
+        scoreText.text = score.ToString();
     }
 }

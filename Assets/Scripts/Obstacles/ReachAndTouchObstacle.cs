@@ -10,6 +10,8 @@ public class ReachAndTouchObstacle : CognitiveObstacle
 
     UIManager uiManager;
 
+    ScoreManager scoreManager;
+
     DisplayFrame[] frames;
 
     GameObject arrow;
@@ -33,8 +35,12 @@ public class ReachAndTouchObstacle : CognitiveObstacle
     //public bool animationPlaying;
     public float animationTime = 1f;
 
+   
+
     bool firstPhaseCompleted = false;
-    
+
+    bool wrongAnswerSelected = false;
+
 
     public override void InteractWithObstacle(string instruction)
     {
@@ -69,7 +75,7 @@ public class ReachAndTouchObstacle : CognitiveObstacle
     void Start () {
         anim = GetComponent<Animator>();
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
-        
+        scoreManager = GameObject.Find("Score Manager").GetComponent<ScoreManager>();
     }
 	
 	// Update is called once per frame
@@ -155,6 +161,10 @@ public class ReachAndTouchObstacle : CognitiveObstacle
             }
             return true;
         }
+        if (!correctAnswers.Contains(text))
+        {
+            wrongAnswerSelected = true;
+        }
         return false;
     }
 
@@ -185,6 +195,15 @@ public class ReachAndTouchObstacle : CognitiveObstacle
         uiManager.UpdateInstruction(completeText);
         uiManager.FadeQuestion();
         firstPhaseCompleted = true;
+
+        if (!wrongAnswerSelected)
+        {
+            scoreManager.UpdateScore(1);
+        }
+        else
+        {
+            scoreManager.UpdateScore(2);
+        }
     }
 
     private void ClearSecondPhase()
