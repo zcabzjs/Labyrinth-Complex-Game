@@ -40,7 +40,7 @@ public class PlayerInteraction : MonoBehaviour {
         }
         else if (gestureListener.IsSwipeUp())
         {
-            
+            updatePlayerPositionAndRotation();
             labyrinth.InteractWithLabyrinth(convertDirectionToVector(playerCurrentPosition, playerCurrentRotation), "SwipeUp");
         }
 	}

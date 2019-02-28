@@ -41,9 +41,9 @@ public class UIManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         // Fade question panel at start of game?
-        questionFrame.color = new Color(instructionFrame.color.r, instructionFrame.color.g, instructionFrame.color.b, 0);
-        questionImage.color = new Color(instructionImage.color.r, instructionImage.color.g, instructionImage.color.b, 0);
-        questionText.color = new Color(instructionText.color.r, instructionText.color.g, instructionText.color.b, 0);
+        questionFrame.color = new Color(questionFrame.color.r, questionFrame.color.g, questionFrame.color.b, 0);
+        questionImage.color = new Color(questionImage.color.r, questionImage.color.g, questionImage.color.b, 0);
+        questionText.color = new Color(questionText.color.r, questionText.color.g, questionText.color.b, 0);
     }
 	
 	// Update is called once per frame
@@ -55,10 +55,10 @@ public class UIManager : MonoBehaviour {
     {
         questionFrame.enabled = true;
         questionImage.enabled = true;
-        questionFrame.color = new Color(instructionFrame.color.r, instructionFrame.color.g, instructionFrame.color.b, 1);
-        questionImage.color = new Color(instructionImage.color.r, instructionImage.color.g, instructionImage.color.b, 1);
+        questionFrame.color = new Color(questionFrame.color.r, questionFrame.color.g, questionFrame.color.b, 1);
+        questionImage.color = new Color(questionImage.color.r, questionImage.color.g, questionImage.color.b, 1);
         questionText.enabled = true;
-        questionText.color = new Color(instructionText.color.r, instructionText.color.g, instructionText.color.b, 1);
+        questionText.color = new Color(questionText.color.r, questionText.color.g, questionText.color.b, 1);
         questionText.text = text;
     }
 

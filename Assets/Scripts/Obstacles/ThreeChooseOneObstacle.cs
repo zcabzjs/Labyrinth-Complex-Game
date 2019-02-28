@@ -23,9 +23,13 @@ public class ThreeChooseOneObstacle : CognitiveObstacle
 
     UIManager uiManager;
 
+    ScoreManager scoreManager;
+
     Animator anim;
     public bool animationPlaying;
     public float animationTime = 1f;
+
+    bool wrongAnswerSelected = false;
 
 
     public override void InteractWithObstacle(string instruction)
@@ -44,6 +48,7 @@ public class ThreeChooseOneObstacle : CognitiveObstacle
         }
         else if (instruction.Equals("SwipeUp")){
             // Do something
+            Debug.Log("Up has been chosen");
             DisplayFrame displayFrame = displayFrames[1] as DisplayFrame;
             displayFrame.ChooseFrame();
         }
@@ -60,9 +65,9 @@ public class ThreeChooseOneObstacle : CognitiveObstacle
     void Start () {
         anim = GetComponent<Animator>();
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
-        
+        scoreManager = GameObject.Find("Score Manager").GetComponent<ScoreManager>();
         //Initialise();
-        
+
     }
 	
 	// Update is called once per frame
@@ -117,6 +122,10 @@ public class ThreeChooseOneObstacle : CognitiveObstacle
             }
             return true;
         }
+        if (!correctAnswers.Contains(text))
+        {
+            wrongAnswerSelected = true;
+        }
         return false;
     }
 
@@ -127,6 +136,15 @@ public class ThreeChooseOneObstacle : CognitiveObstacle
         isCleared = true;
         uiManager.FadeInstruction();
         uiManager.FadeQuestion();
+
+        if (!wrongAnswerSelected)
+        {
+            scoreManager.UpdateScore(1);
+        }
+        else
+        {
+            scoreManager.UpdateScore(2);
+        }
     }
 
     private void ClearObstacle()
