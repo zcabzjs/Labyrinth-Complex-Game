@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class DoorButton : MonoBehaviour {
+public class FinalDoorButton : MonoBehaviour {
 
     TextMeshPro buttonText;
 
@@ -21,11 +21,12 @@ public class DoorButton : MonoBehaviour {
         // Check if button can still be activated
         if (!clicked)
         {
-            anim.SetTrigger("pressButton");
-            DeactivateButton();
+            //anim.SetTrigger("pressButton");
+            
             // Check with door to see if the input is correct or wrong
-            DoorObstacleWithButton doorObstacleWithButton = GetComponentInParent<DoorObstacleWithButton>();
-            if (doorObstacleWithButton.CheckButtonAnswer(buttonText.text))
+            FinalDoorObstacle finalDoorObstacle = GetComponentInParent<FinalDoorObstacle>();
+            finalDoorObstacle.DeactivateAllButtons();
+            if (finalDoorObstacle.CheckButtonAnswer(buttonText.text))
             {
                 GameObject indicator = transform.GetChild(0).GetChild(0).gameObject;
                 indicator.SetActive(true);
@@ -38,6 +39,7 @@ public class DoorButton : MonoBehaviour {
                 indicator.SetActive(true);
                 Debug.Log("Returns false");
             }
+            finalDoorObstacle.UpdateObstacle();
         }
 
         // If wrong, do something
@@ -45,7 +47,12 @@ public class DoorButton : MonoBehaviour {
         // If right, do something
     }
 
-
+    public void DeactivateButton()
+    {
+        clicked = true;
+        DoorButtonTrigger doorButtonTrigger = GetComponentInChildren<DoorButtonTrigger>();
+        doorButtonTrigger.DeactivateTrigger();
+    }
 
     public void SetButtonText(string text)
     {
@@ -65,10 +72,17 @@ public class DoorButton : MonoBehaviour {
         anim.SetTrigger("popButton");
     }
 
-    public void DeactivateButton()
+    public void ResetButton()
     {
-        clicked = true;
+        // Deactivate the indicator frames...
+        transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+        transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+
+        // Allow button to be clicked again
+        clicked = false;
+
+        // Allow door button trigger to detect movements again
         DoorButtonTrigger doorButtonTrigger = GetComponentInChildren<DoorButtonTrigger>();
-        doorButtonTrigger.DeactivateTrigger();
+        doorButtonTrigger.ActivateTrigger();
     }
 }

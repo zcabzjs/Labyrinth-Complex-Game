@@ -11,12 +11,26 @@ public class DoorButtonTrigger : MonoBehaviour {
         triggerActivated = false;
     }
 
+    public void ActivateTrigger()
+    {
+        triggerActivated = true;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag.Equals("Player") && triggerActivated)
         {
             DoorButton doorButton = GetComponentInParent<DoorButton>();
-            doorButton.DoorButtonPressed();
+            if(doorButton != null)
+            {
+                doorButton.DoorButtonPressed();
+            }
+            else
+            {
+                // Same door trigger  used for final door obstacle
+                FinalDoorButton finalDoorButton = GetComponentInParent<FinalDoorButton>();
+                finalDoorButton.DoorButtonPressed();
+            }
             
         }
     }

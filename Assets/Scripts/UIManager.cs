@@ -25,6 +25,11 @@ public class UIManager : MonoBehaviour {
     public Image questionImage;
     public TextMeshProUGUI questionText;
 
+    // UI for final obstacle
+    public Image finalObstacleKeyFrame;
+    public Image finalObstacleKeyImage;
+    public TextMeshProUGUI finalObstacleKeyText;
+
     // Time text
     public TextMeshProUGUI timeText;
 
@@ -47,12 +52,40 @@ public class UIManager : MonoBehaviour {
         questionFrame.color = new Color(questionFrame.color.r, questionFrame.color.g, questionFrame.color.b, 0);
         questionImage.color = new Color(questionImage.color.r, questionImage.color.g, questionImage.color.b, 0);
         questionText.color = new Color(questionText.color.r, questionText.color.g, questionText.color.b, 0);
+
+        // Fade final obstacle panel at start of game
+        finalObstacleKeyFrame.color = new Color(finalObstacleKeyFrame.color.r, finalObstacleKeyFrame.color.g, finalObstacleKeyFrame.color.b, 0);
+        finalObstacleKeyImage.color = new Color(finalObstacleKeyImage.color.r, finalObstacleKeyImage.color.g, finalObstacleKeyImage.color.b, 0);
+        finalObstacleKeyText.color = new Color(finalObstacleKeyText.color.r, finalObstacleKeyText.color.g, finalObstacleKeyText.color.b, 0);
     }
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+
+    public void ShowFinalObstacleKeyPanel()
+    {
+        finalObstacleKeyFrame.enabled = true;
+        finalObstacleKeyImage.enabled = true;
+        finalObstacleKeyText.enabled = true;
+
+        finalObstacleKeyFrame.color = new Color(finalObstacleKeyFrame.color.r, finalObstacleKeyFrame.color.g, finalObstacleKeyFrame.color.b, 1);
+        finalObstacleKeyImage.color = new Color(finalObstacleKeyImage.color.r, finalObstacleKeyImage.color.g, finalObstacleKeyImage.color.b, 1);
+        finalObstacleKeyText.color = new Color(finalObstacleKeyText.color.r, finalObstacleKeyText.color.g, finalObstacleKeyText.color.b, 1);
+    }
+
+    public void FadeFinalObstacleKeyPanel()
+    {
+        StartCoroutine(FadeImage(fadeTextTime, finalObstacleKeyFrame));
+        StartCoroutine(FadeImage(fadeTextTime, finalObstacleKeyImage));
+        StartCoroutine(FadeTextToZeroAlpha(fadeTextTime, finalObstacleKeyText));
+    }
+
+    public void UpdateFinalObstacleKey(string text)
+    {
+        finalObstacleKeyText.text = text;
+    }
 
     public void UpdateQuestion(string text)
     {

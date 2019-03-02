@@ -51,6 +51,12 @@ public class ScoreManager : MonoBehaviour {
             case 2:
                 currentScore += 50;
                 break;
+            case 3:
+                currentScore += 300;
+                break;
+            case 4:
+                currentScore += 250;
+                break;
             default:
                 currentScore += 50;
                 break;
@@ -76,6 +82,14 @@ public class ScoreManager : MonoBehaviour {
                 break;
             case 2:
                 message = "Good !";
+                scoreColor = new Color32(223, 255, 0, 255);
+                break;
+            case 3:
+                message = "Perfect !";
+                scoreColor = new Color32(113, 255, 0, 255);
+                break;
+            case 4:
+                message = "Great job !";
                 scoreColor = new Color32(223, 255, 0, 255);
                 break;
             default:

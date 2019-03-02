@@ -18,7 +18,7 @@ public class QuestionGenerator : MonoBehaviour {
     {
         // Max number is based on number of instructions in total created...
         // Look at the number of switch choices to set max number for this
-        int numberOfQuestions = 3;
+        int numberOfQuestions = 4;
         int choice = UnityEngine.Random.Range(0, numberOfQuestions);
         // Add questions here
         switch (choice)
@@ -31,6 +31,9 @@ public class QuestionGenerator : MonoBehaviour {
 
             case 2:
                 return new SubtractTwoNumbersInstruction();
+
+            case 3:
+                return new MultiplyTwoNumbersInstruction();
 
             default:
                 Debug.Log("Error in generating question, check QuestionGenerator.cs");

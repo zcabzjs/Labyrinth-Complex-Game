@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoorObstacleWithButton : Obstacle {
+public class FinalDoorObstacle : Obstacle {
 
-    string obstacleInstruction = "Touch the targets with the characters in the original sequence.";
+    string obstacleInstruction = "Touch the characters to complete the initial given sequence.";
     string completeText = "Push door to proceed";
-    string obstacleQuestion = "Which characters appeared in the original sequence?";
+    string obstacleQuestion = "Complete the whole sequence given initially.";
     string startingInstruction = "Step on the footpad to start the puzzle.";
 
     int numberOfButtonsOnDoor = 7; // Number of buttons on door
-    int minimumNumberOfCorrectAnswers = 1; // Number of correct answers minimum
 
     [SerializeField]
     bool doorUnlocked;
@@ -43,30 +42,58 @@ public class DoorObstacleWithButton : Obstacle {
 
     bool wrongAnswerSelected = false;
 
+    bool sequenceCompleted = false;
+
+    int currentIndex = 0;
+
+    bool correctAnswerSelected = false;
+
+    string finalDisplayedKeys = "";
+
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         anim = GetComponent<Animator>();
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         scoreManager = GameObject.Find("Score Manager").GetComponent<ScoreManager>();
         // Call initialise here
-        Initialise();
+        Initialise(currentIndex);
+        GenerateFinalDisplayedKeyString(currentIndex);
     }
-	
-	// Update is called once per frame
-	void Update () {
-	}
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
 
     // Initialise the buttons on the door by randomly generating random stuff
-    void Initialise()
+    void Initialise(int currentIndex)
     {
-        GenerateKeyOptions();
+        GenerateKeyOptions(currentIndex);
         ShuffleChoices();
         SetButtonText();
-        GenerateCorrectAnswers();
+        GenerateCorrectAnswers(currentIndex);
+    }
+
+    void GenerateFinalDisplayedKeyString(int currentIndex)
+    {
+        finalDisplayedKeys = "";
+        for(int i = 0; i < initialKeys.Count; i++)
+        {
+            if(i < currentIndex)
+            {
+                finalDisplayedKeys += initialKeys[i];
+            }
+            else
+            {
+                finalDisplayedKeys += " -";
+            }
+        }
+        uiManager.UpdateFinalObstacleKey(finalDisplayedKeys);
     }
 
     // Generate the options to be put on the door
-    void GenerateKeyOptions()
+    void GenerateKeyOptions(int currentIndex)
     {
         checkedAnswers = new List<string>();
         choicesToPutOnButton = new List<string>();
@@ -76,19 +103,10 @@ public class DoorObstacleWithButton : Obstacle {
         stringsToChooseFrom = keyManager.mixedCharacters;
         for (int i = 0; i < numberOfButtonsOnDoor; i++)
         {
-            if (i < minimumNumberOfCorrectAnswers)
+            if (i == 0)
             {
-                bool isKeyGenerated = false;
-                while (!isKeyGenerated)
-                {
-                    int r = UnityEngine.Random.Range(0, initialKeys.Count);
-                    string chosenString = initialKeys[r].ToString();
-                    if (!choicesToPutOnButton.Contains(chosenString))
-                    {
-                        choicesToPutOnButton.Add(chosenString);
-                        isKeyGenerated = true;
-                    }
-                }
+                string chosenString = initialKeys[currentIndex].ToString();
+                choicesToPutOnButton.Add(chosenString);
             }
             else
             {
@@ -110,10 +128,10 @@ public class DoorObstacleWithButton : Obstacle {
     // Put the generated options onto the buttons
     void SetButtonText()
     {
-        doorButtons = GetComponentsInChildren<DoorButton>();
-        for(int i = 0; i < doorButtons.Length; i++)
+        doorButtons = GetComponentsInChildren<FinalDoorButton>();
+        for (int i = 0; i < doorButtons.Length; i++)
         {
-            DoorButton doorButton = doorButtons[i] as DoorButton;
+            FinalDoorButton doorButton = doorButtons[i] as FinalDoorButton;
             doorButton.SetButtonText(choicesToPutOnButton[i]);
         }
     }
@@ -133,13 +151,19 @@ public class DoorObstacleWithButton : Obstacle {
     // Pops the buttons out to allow player to complete the puzzle
     public override void ActivateObstacle()
     {
-        for (int i = 0; i < doorButtons.Length; i++)
-        {
-            DoorButton doorButton = doorButtons[i] as DoorButton;
-            doorButton.PopButton();
-        }
+        PopButtons();
         uiManager.UpdateQuestion(obstacleQuestion);
         uiManager.UpdateInstruction(obstacleInstruction);
+        uiManager.ShowFinalObstacleKeyPanel();
+    }
+
+    void PopButtons()
+    {
+        for (int i = 0; i < doorButtons.Length; i++)
+        {
+            FinalDoorButton doorButton = doorButtons[i] as FinalDoorButton;
+            doorButton.PopButton();
+        }
     }
 
     // Pushes the buttons in to show player has completed puzzle
@@ -147,8 +171,17 @@ public class DoorObstacleWithButton : Obstacle {
     {
         for (int i = 0; i < doorButtons.Length; i++)
         {
-            DoorButton doorButton = doorButtons[i] as DoorButton;
+            FinalDoorButton doorButton = doorButtons[i] as FinalDoorButton;
             doorButton.PushButton();
+        }
+    }
+
+    void ResetButtons()
+    {
+        for (int i = 0; i < doorButtons.Length; i++)
+        {
+            FinalDoorButton doorButton = doorButtons[i] as FinalDoorButton;
+            doorButton.ResetButton();
         }
     }
 
@@ -156,7 +189,7 @@ public class DoorObstacleWithButton : Obstacle {
     {
         for (int i = 0; i < doorButtons.Length; i++)
         {
-            DoorButton doorButton = doorButtons[i] as DoorButton;
+            FinalDoorButton doorButton = doorButtons[i] as FinalDoorButton;
             doorButton.DeactivateButton();
         }
     }
@@ -164,45 +197,17 @@ public class DoorObstacleWithButton : Obstacle {
     // Check if answer put is in the desired answers, and add them into the list if it is correct
     public bool CheckButtonAnswer(string text)
     {
-        if (correctAnswers.Contains(text) && !checkedAnswers.Contains(text))
+        if(text == correctAnswers[0])
         {
-            checkedAnswers.Add(text);
-            if (IsAnswersComplete())
-            {
-                
-                PushButtons();
-                uiManager.UpdateInstruction(completeText);
-                uiManager.FadeQuestion();
-
-                if (!wrongAnswerSelected)
-                {
-                    scoreManager.UpdateScore(1);
-                }
-                else
-                {
-                    scoreManager.UpdateScore(2);
-                }
-                DeactivateAllButtons();
-            }
+            
+            correctAnswerSelected = true;
             return true;
         }
-        if (!correctAnswers.Contains(text))
-        {
-            wrongAnswerSelected = true;
-        }
+
+        correctAnswerSelected = false;
         return false;
     }
 
-    // Check if answer by player is complete
-    bool IsAnswersComplete()
-    {
-        // Allow door to open if so..
-        if(checkedAnswers.Count == correctAnswers.Count)
-        {
-            return true;
-        }
-        return false;
-    }
 
     public override void InteractWithObstacle(string instruction)
     {
@@ -215,32 +220,89 @@ public class DoorObstacleWithButton : Obstacle {
         }
     }
 
+    // Make changes based on input
+    public void UpdateObstacle()
+    {
+        if(currentIndex == initialKeys.Count - 1 && correctAnswerSelected)
+        {
+            sequenceCompleted = true;
+            PushButtons();
+            uiManager.UpdateInstruction(completeText);
+            uiManager.FadeQuestion();
+            // To show whole string
+            GenerateFinalDisplayedKeyString(currentIndex + 1);
+            //Update score..
+            if (!wrongAnswerSelected)
+            {
+                scoreManager.UpdateScore(3);
+            }
+            else
+            {
+                scoreManager.UpdateScore(4);
+            }
+        }
+        else
+        {
+            StartCoroutine(SwitchKeysOnButton());
+        }
+        
+
+    }
+
     IEnumerator PlayAnimation()
     {
         anim.SetTrigger("PushDoor");
         yield return new WaitForSeconds(animationTime);
         isCleared = true;
         uiManager.FadeInstruction();
-
+        uiManager.FadeFinalObstacleKeyPanel();
 
     }
 
-    void GenerateCorrectAnswers()
+    IEnumerator SwitchKeysOnButton()
+    {
+        // Push button back in?
+        PushButtons();
+        yield return new WaitForSeconds(animationTime);
+
+        // Reinitialise the keys on the buttons
+        if (correctAnswerSelected)
+        {
+            currentIndex++;
+        }
+        else
+        {
+            currentIndex = 0;
+            wrongAnswerSelected = true;
+        }
+        Initialise(currentIndex);
+        GenerateFinalDisplayedKeyString(currentIndex);
+        // Reset buttons and pop them back out
+        ResetButtons();
+
+        PopButtons();
+    }
+
+    bool IsAnswersComplete()
+    {
+        return sequenceCompleted;
+    }
+
+    void GenerateCorrectAnswers(int currentIndex)
     {
         correctAnswers = new List<string>();
-        for (int i = 0; i < choicesToPutOnButton.Count; i++)
-        {
-            if (initialKeys.Contains(choicesToPutOnButton[i]))
-            {
-                correctAnswers.Add(choicesToPutOnButton[i]);
-            }
-        }
+        correctAnswers.Add(initialKeys[currentIndex]);
     }
 
     public override void UpdateInstructionForObstacle()
     {
         //Nothing..
         uiManager.UpdateInstruction(startingInstruction);
-        
+
+    }
+
+    void ResetObstacle()
+    {
+        Initialise(currentIndex);
     }
 }
