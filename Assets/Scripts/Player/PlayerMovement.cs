@@ -10,21 +10,21 @@ public class PlayerMovement : MonoBehaviour {
     private float timestamp;
     public float interpolationSpeed = 10.0F;
     public Vector3 desiredPosition;
-
+    AudioSource audioSource;
     public LabyrinthNavigation labyrinth;
 
     //Rotation values: 0 for 0, 1 for 90, 2 for 180, 3 for 270 degrees
     public int playerCurrentRotation = 0;
 
     Vector3 checkPoint;
-
+    bool audioPlayed = false;
     PlayerGestureListener gestureListener;
     // Use this for initialization
     void Start()
     {
         desiredPosition = transform.position;
         gestureListener = PlayerGestureListener.Instance;
-
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -32,14 +32,26 @@ public class PlayerMovement : MonoBehaviour {
     {
         PlayerMovementInput();
         transform.position = Vector3.Lerp(transform.position, desiredPosition, interpolationSpeed * Time.deltaTime);
-
-        //transform.eulerAngles = new Vector3(0, 90 * playerCurrentRotation, 0);
-        if (desiredPosition == checkPoint)
+        float dist = Vector3.Distance(desiredPosition, transform.position);
+        if(dist > 0.1 && !audioSource.isPlaying)
         {
-            Debug.Log("Checkpoint arrived!");
-            // Play animation that checks stuff
-            // Check final answer with answer collected from player
-
+            if (!audioPlayed)
+            {
+                audioSource.Play();
+                audioPlayed = true;
+            }
+            else
+            {
+                audioSource.UnPause();
+            }
+            
+        }
+        else
+        {
+            if (audioSource.isPlaying)
+            {
+                audioSource.Pause();
+            }
         }
     }
 

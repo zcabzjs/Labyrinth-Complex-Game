@@ -9,11 +9,14 @@ public class FinalDoorButton : MonoBehaviour {
 
     Animator anim;
 
+    AudioSource audioSource;
+
     bool clicked = false;
 
     private void Start()
     {
         anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void DoorButtonPressed()
@@ -64,12 +67,14 @@ public class FinalDoorButton : MonoBehaviour {
     {
         Animator anim = GetComponent<Animator>();
         anim.SetTrigger("pushButton");
+        audioSource.Play();
     }
 
     public void PopButton()
     {
         Animator anim = GetComponent<Animator>();
         anim.SetTrigger("popButton");
+        audioSource.Play();
     }
 
     public void ResetButton()

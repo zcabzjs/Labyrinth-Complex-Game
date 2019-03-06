@@ -9,11 +9,14 @@ public class DoorButton : MonoBehaviour {
 
     Animator anim;
 
+    AudioSource audioSource;
+
     bool clicked = false;
 
     private void Start()
     {
         anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void DoorButtonPressed()
@@ -22,6 +25,7 @@ public class DoorButton : MonoBehaviour {
         if (!clicked)
         {
             anim.SetTrigger("pressButton");
+            audioSource.Play();
             DeactivateButton();
             // Check with door to see if the input is correct or wrong
             DoorObstacleWithButton doorObstacleWithButton = GetComponentInParent<DoorObstacleWithButton>();
@@ -57,12 +61,14 @@ public class DoorButton : MonoBehaviour {
     {
         Animator anim = GetComponent<Animator>();
         anim.SetTrigger("pushButton");
+        audioSource.Play();
     }
 
     public void PopButton()
     {
         Animator anim = GetComponent<Animator>();
         anim.SetTrigger("popButton");
+        audioSource.Play();
     }
 
     public void DeactivateButton()

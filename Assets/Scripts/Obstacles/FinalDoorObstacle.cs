@@ -40,6 +40,8 @@ public class FinalDoorObstacle : Obstacle {
 
     ScoreManager scoreManager;
 
+    SuccessManager successManager;
+
     bool wrongAnswerSelected = false;
 
     bool sequenceCompleted = false;
@@ -56,6 +58,7 @@ public class FinalDoorObstacle : Obstacle {
         anim = GetComponent<Animator>();
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         scoreManager = GameObject.Find("Score Manager").GetComponent<ScoreManager>();
+        successManager = GameObject.Find("Success Manager").GetComponent<SuccessManager>();
         // Call initialise here
         Initialise(currentIndex);
         GenerateFinalDisplayedKeyString(currentIndex);
@@ -201,10 +204,12 @@ public class FinalDoorObstacle : Obstacle {
         {
             
             correctAnswerSelected = true;
+            successManager.PlaySuccessSound();
             return true;
         }
 
         correctAnswerSelected = false;
+        successManager.PlayFailureSound();
         return false;
     }
 

@@ -25,6 +25,8 @@ public class ThreeChooseOneObstacle : CognitiveObstacle
 
     ScoreManager scoreManager;
 
+    SuccessManager successManager;
+
     Animator anim;
     public bool animationPlaying;
     public float animationTime = 1f;
@@ -66,6 +68,7 @@ public class ThreeChooseOneObstacle : CognitiveObstacle
         anim = GetComponent<Animator>();
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         scoreManager = GameObject.Find("Score Manager").GetComponent<ScoreManager>();
+        successManager = GameObject.Find("Success Manager").GetComponent<SuccessManager>();
         //Initialise();
 
     }
@@ -120,10 +123,12 @@ public class ThreeChooseOneObstacle : CognitiveObstacle
             {
                 ClearObstacle();
             }
+            successManager.PlaySuccessSound();
             return true;
         }
         if (!correctAnswers.Contains(text))
         {
+            successManager.PlayFailureSound();
             wrongAnswerSelected = true;
         }
         return false;
