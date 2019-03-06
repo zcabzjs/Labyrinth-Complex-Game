@@ -12,12 +12,15 @@ public class LevelManager : MonoBehaviour {
 
     public Victory victoryManager;
 
+    AudioSource audioSource;
+
     // Keep track of time here..
     float timeToCompleteLevel;
     float startTime;
     float endTime;
 	// Use this for initialization
 	void Start () {
+        audioSource = GetComponent<AudioSource>();
         keyManager.GenerateKeys();
         labyrinth.InitiateLabyrinth();
 	}
@@ -44,5 +47,19 @@ public class LevelManager : MonoBehaviour {
         float timeTaken = GetTimeTakenToCompleteLevel();
         int endScore = scoreManager.GetEndScore();
         victoryManager.PlayerVictory(timeTaken, endScore);
+        StartCoroutine(FadeMusic(audioSource, 1f));
+    }
+
+    IEnumerator FadeMusic(AudioSource audiosource, float fadetime)
+    {
+        float startVol = audiosource.volume;
+        while(audiosource.volume > 0)
+        {
+            audiosource.volume -= startVol * Time.deltaTime / fadetime;
+            yield return null;
+        }
+
+        audiosource.Stop();
+        audiosource.volume = startVol;
     }
 }

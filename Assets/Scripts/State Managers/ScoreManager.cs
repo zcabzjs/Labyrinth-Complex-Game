@@ -14,9 +14,11 @@ public class ScoreManager : MonoBehaviour {
 
     float scoreMessageFadeTime = 0.2f;
 
+    public AudioSource audioSource;
+
 	// Use this for initialization
 	void Start () {
-		
+        
 	}
 	
 	// Update is called once per frame
@@ -32,6 +34,7 @@ public class ScoreManager : MonoBehaviour {
             displayedScore++;
             scorePoints.text = displayedScore.ToString();
             // Play sound when points update
+            audioSource.Play();
         }
     }
     
