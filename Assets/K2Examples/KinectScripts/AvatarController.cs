@@ -608,15 +608,16 @@ public class AvatarController : MonoBehaviour
 		}
 
 
+        // Resets to initial position and rotation?
+        //transform.position = initialPosition;
+        transform.localRotation = Quaternion.identity;
+        
 
-		transform.position = initialPosition;
-		transform.rotation = initialRotation;
-
-//		if (bones[0]) 
-//		{
-//			bones[0].localPosition = initialHipsPosition;
-//			bones[0].localRotation = initialHipsRotation;
-//		}
+        //		if (bones[0]) 
+        //		{
+        //			bones[0].localPosition = initialHipsPosition;
+        //			bones[0].localRotation = initialHipsRotation;
+        //		}
     }
 	
 	/// <summary>
@@ -635,15 +636,15 @@ public class AvatarController : MonoBehaviour
 		}
 		
         // reset initial position / rotation if needed 
-        if(resetInitialTransform)
-        {
+        //if(resetInitialTransform)
+        //{
             bodyRootPosition = transform.position;
             initialPosition = transform.position;
             initialRotation = transform.rotation;
-        }
+        //}
 
-		transform.position = initialPosition;
-		transform.rotation = initialRotation;
+		//transform.position = initialPosition;
+		//transform.rotation = initialRotation;
 
 //		// enable all bones
 //		for(int i = 0; i < bones.Length; i++)

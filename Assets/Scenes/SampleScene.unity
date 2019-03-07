@@ -5074,7 +5074,7 @@ MonoBehaviour:
   posRelOverlayColor: 0
   backgroundPlane: {fileID: 0}
   posRelInvertedZ: 0
-  groundedFeet: 1
+  groundedFeet: 0
   applyMuscleLimits: 0
   flipLeftRight: 0
   verticalOffset: 0
@@ -6683,7 +6683,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh8636
+  m_Name: pb_Mesh37534
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -7293,7 +7293,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh8670
+  m_Name: pb_Mesh37568
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -7609,6 +7609,7 @@ GameObject:
   - component: {fileID: 449739499}
   - component: {fileID: 449739498}
   - component: {fileID: 449739497}
+  - component: {fileID: 449739501}
   m_Layer: 0
   m_Name: Kinect Controller
   m_TagString: Untagged
@@ -7700,6 +7701,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &449739501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 449739496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10c5832264d4548429d5e2827ab79d0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &470161348
 GameObject:
   m_ObjectHideFlags: 0
@@ -8940,7 +8952,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh9150
+  m_Name: pb_Mesh38114
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -14533,7 +14545,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -15587,7 +15599,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh9040
+  m_Name: pb_Mesh37952
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
