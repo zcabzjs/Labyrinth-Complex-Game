@@ -8,6 +8,8 @@ public class Victory : MonoBehaviour {
 
     public UIManager uiManager;
 
+    public bool victoryAchieved = false;
+
 	// Use this for initialization
 	public void PlayerVictory(float timeTaken, int score)
     {
@@ -17,5 +19,6 @@ public class Victory : MonoBehaviour {
         uiManager.SetEndTime(timeTaken);
         Animator anim = victoryUI.GetComponent<Animator>();
         anim.SetTrigger("playerVictory");
+        victoryAchieved = true;
     }
 }
