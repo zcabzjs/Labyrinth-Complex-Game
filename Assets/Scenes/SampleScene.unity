@@ -13222,6 +13222,8 @@ MonoBehaviour:
   - {fileID: 114554258998591146, guid: c3c99db80338cc04fa2af4303e928f9d, type: 2}
   obstaclePrefabs:
   - {fileID: 114075275696201526, guid: 24017d2eac8712a459834865b2e75630, type: 2}
+  - {fileID: 114705104475730216, guid: cd749be1a19034641904b66068206f69, type: 2}
+  - {fileID: 114082700293205970, guid: 6f861dd306b80964b9a9e150de8ddb5e, type: 2}
   cognitiveObstaclePrefabs:
   - {fileID: 114709065927484348, guid: aecface5269858142b2165f29608fbfa, type: 2}
   - {fileID: 114128240496167228, guid: a2b57d9a4e5a7f942b6273f3b12995a0, type: 2}
