@@ -36,6 +36,6 @@ public class PushLeftObstacle : Obstacle {
 
     public override void UpdateInstructionForObstacle()
     {
-        uiManager.UpdateInstruction("Swipe in the direction of the arrow.");
+        uiManager.UpdateInstruction("Swipe left with right hand.");
     }
 }

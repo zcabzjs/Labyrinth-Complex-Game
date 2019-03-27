@@ -12,6 +12,8 @@ public class LevelManager : MonoBehaviour {
 
     public Victory victoryManager;
 
+    KinectManager kinectManager;
+
     AudioSource audioSource;
 
     // Keep track of time here..
@@ -23,7 +25,10 @@ public class LevelManager : MonoBehaviour {
         audioSource = GetComponent<AudioSource>();
         keyManager.GenerateKeys();
         labyrinth.InitiateLabyrinth();
-	}
+        kinectManager = GameObject.Find("Kinect Controller").GetComponent<KinectManager>();
+        kinectManager.displayUserMap = true;
+
+    }
 
     public void SetStartTime()
     {
@@ -47,6 +52,7 @@ public class LevelManager : MonoBehaviour {
         float timeTaken = GetTimeTakenToCompleteLevel();
         int endScore = scoreManager.GetEndScore();
         victoryManager.PlayerVictory(timeTaken, endScore);
+        kinectManager.displayUserMap = false;
         StartCoroutine(FadeMusic(audioSource, 1f));
     }
 

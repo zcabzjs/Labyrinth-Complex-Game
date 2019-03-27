@@ -5,7 +5,7 @@ using UnityEngine;
 public class ReachAndTouchObstacle : CognitiveObstacle
 {
 
-    string completeText = "Swipe left to proceed.";
+    string completeText = "Swipe left with the right hand to proceed.";
     string instructionText = "Touch the pads with the right answers";
 
     UIManager uiManager;
