@@ -27,7 +27,7 @@ public class DoorButtonTrigger : MonoBehaviour {
         {
             currentTime += Time.deltaTime;
             //Update slider with currentTime;
-            Debug.Log("Current time: " + currentTime);
+            //Debug.Log("Current time: " + currentTime);
             slider.value = currentTime;
         }
     }

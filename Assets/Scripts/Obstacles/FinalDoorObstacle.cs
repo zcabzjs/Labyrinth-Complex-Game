@@ -52,6 +52,8 @@ public class FinalDoorObstacle : Obstacle {
 
     string finalDisplayedKeys = "";
 
+    bool obstacleActivated = false;
+
     // Use this for initialization
     void Start()
     {
@@ -158,6 +160,7 @@ public class FinalDoorObstacle : Obstacle {
         uiManager.UpdateQuestion(obstacleQuestion);
         uiManager.UpdateInstruction(obstacleInstruction);
         uiManager.ShowFinalObstacleKeyPanel();
+        obstacleActivated = true;
     }
 
     void PopButtons()
@@ -301,8 +304,11 @@ public class FinalDoorObstacle : Obstacle {
 
     public override void UpdateInstructionForObstacle()
     {
-        //Nothing..
-        uiManager.UpdateInstruction(startingInstruction);
+        if (!obstacleActivated)
+        {
+            uiManager.UpdateInstruction(startingInstruction);
+        }
+        
 
     }
 

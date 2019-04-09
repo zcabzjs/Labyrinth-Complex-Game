@@ -45,6 +45,8 @@ public class DoorObstacleWithButton : Obstacle {
 
     bool wrongAnswerSelected = false;
 
+    bool obstacleActivated = false;
+
     // Use this for initialization
     void Start () {
         anim = GetComponent<Animator>();
@@ -143,6 +145,7 @@ public class DoorObstacleWithButton : Obstacle {
         }
         uiManager.UpdateQuestion(obstacleQuestion);
         uiManager.UpdateInstruction(obstacleInstruction);
+        obstacleActivated = true;
     }
 
     // Pushes the buttons in to show player has completed puzzle
@@ -245,7 +248,11 @@ public class DoorObstacleWithButton : Obstacle {
     public override void UpdateInstructionForObstacle()
     {
         //Nothing..
-        uiManager.UpdateInstruction(startingInstruction);
+        if (!obstacleActivated)
+        {
+            uiManager.UpdateInstruction(startingInstruction);
+        }
+        
         
     }
 }

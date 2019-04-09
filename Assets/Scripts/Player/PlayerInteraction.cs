@@ -23,6 +23,11 @@ public class PlayerInteraction : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        PlayerInteractionInput();
+    }
+
+    private void PlayerInteractionInput()
+    {
         if (gestureListener.IsSwipeLeft())
         {
             updatePlayerPositionAndRotation();
@@ -43,7 +48,7 @@ public class PlayerInteraction : MonoBehaviour {
             updatePlayerPositionAndRotation();
             labyrinth.InteractWithLabyrinth(convertDirectionToVector(playerCurrentPosition, playerCurrentRotation), "SwipeUp");
         }
-	}
+    }
 
     private Vector3 convertDirectionToVector(Vector3 playerCurrentPosition, int direction)
     {
