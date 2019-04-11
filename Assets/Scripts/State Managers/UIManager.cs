@@ -40,9 +40,6 @@ public class UIManager : MonoBehaviour {
 
     public LevelManager levelManager;
 
-    public GameObject titlePanel;
-
-
 
     float fadeTextTime = 0.2f;
     float TimeTakenToCompleteLevel;

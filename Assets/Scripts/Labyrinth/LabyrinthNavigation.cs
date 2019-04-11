@@ -9,7 +9,7 @@ public class LabyrinthNavigation : MonoBehaviour {
 
     public int totalGridsVisited = 1;
 
-    public int pathLength = 10;
+    private int pathLength = 10;
 
     // Wall prefab used to instantiate
     public Transform wallPrefab;
@@ -28,7 +28,7 @@ public class LabyrinthNavigation : MonoBehaviour {
 
     public QuestionGenerator questionGenerator;
 
-    public int numberOfObstacles = 8;
+    private int numberOfObstacles = 8;
 
     // Player prefab to be instantiated
     //public Transform playerPrefab;
@@ -37,9 +37,9 @@ public class LabyrinthNavigation : MonoBehaviour {
     public void InitiateLabyrinth () {
 
         //Debug.Log("Path length: " + GameObject.Find("KeyManager").GetComponent<KeyManager>().initialKeyArray.Count);
-        //int difficultyLevel = GameObject.Find("KeyManager").GetComponent<KeyManager>().initialKeyArray.Count;
-        //pathLength = difficultyLevel * 3;
-        //numberOfObstacles = difficultyLevel * 2;
+        int difficultyLevel = GameObject.Find("KeyManager").GetComponent<KeyManager>().initialKeyArray.Count;
+        pathLength = (int) (difficultyLevel * 2.5);
+        numberOfObstacles = difficultyLevel * 2;
 
         int length = UnityEngine.Random.Range(pathLength+5, pathLength + 10);
         int width = UnityEngine.Random.Range(pathLength+5, pathLength + 10);

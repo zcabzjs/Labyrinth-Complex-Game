@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SuccessManager : MonoBehaviour {
+public class SuccessAudioManager : MonoBehaviour {
 
     public AudioClip failureSound;
     public AudioClip successSound1;
@@ -11,15 +11,17 @@ public class SuccessManager : MonoBehaviour {
     public AudioClip successSound4;
 
     AudioSource audioSource;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         audioSource = GetComponent<AudioSource>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     public void PlayFailureSound()
     {

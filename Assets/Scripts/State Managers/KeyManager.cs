@@ -13,15 +13,39 @@ public class KeyManager : MonoBehaviour {
     public string mixedCharacters = upperCaseCharacters + numericCharacters;
 
     // Initial number of keys to remember
-    public int numberOfKeys = 4;
+    private int numberOfKeys = 8;
 
     // List that stores the number of keys generated
     public List<string> initialKeyArray = new List<string>();
 
     public TextMeshProUGUI displayKeyText;
 
+    private void AdjustDifficulty()
+    {
+        int difficulty = PlayerPrefs.GetInt("Difficulty", 0);
+        switch (difficulty)
+        {
+            case 0:
+                numberOfKeys = 4;
+                break;
+            case 1:
+                numberOfKeys = 6;
+                break;
+            case 2:
+                numberOfKeys = 8;
+                break;
+            default:
+                numberOfKeys = 4;
+                Debug.Log("Issue in AdjustDifficulty() function in KeyManager");
+                break;
+
+        }
+    }
+
     public void GenerateKeys()
     {
+        AdjustDifficulty();
+
         string chosenOption = mixedCharacters;
         for(int i = 0; i < numberOfKeys; i++)
         {

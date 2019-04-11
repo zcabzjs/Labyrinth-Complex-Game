@@ -12,7 +12,7 @@ public class ReachAndTouchObstacle : CognitiveObstacle
 
     ScoreManager scoreManager;
 
-    SuccessManager successManager;
+    SuccessAudioManager successAudioManager;
 
     DisplayFrame[] frames;
 
@@ -78,7 +78,7 @@ public class ReachAndTouchObstacle : CognitiveObstacle
         anim = GetComponent<Animator>();
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         scoreManager = GameObject.Find("Score Manager").GetComponent<ScoreManager>();
-        successManager = GameObject.Find("Success Manager").GetComponent<SuccessManager>();
+        successAudioManager = GameObject.Find("Success Audio Manager").GetComponent<SuccessAudioManager>();
     }
 	
 	// Update is called once per frame
@@ -162,13 +162,13 @@ public class ReachAndTouchObstacle : CognitiveObstacle
             {
                 ClearFirstPhase();
             }
-            successManager.PlaySuccessSound();
+            successAudioManager.PlaySuccessSound();
             return true;
         }
         if (!correctAnswers.Contains(text))
         {
             wrongAnswerSelected = true;
-            successManager.PlayFailureSound();
+            successAudioManager.PlayFailureSound();
         }
         return false;
     }

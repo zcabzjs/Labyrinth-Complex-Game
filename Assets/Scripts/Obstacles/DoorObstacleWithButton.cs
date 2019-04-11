@@ -41,7 +41,7 @@ public class DoorObstacleWithButton : Obstacle {
 
     ScoreManager scoreManager;
 
-    SuccessManager successManager;
+    SuccessAudioManager successAudioManager;
 
     bool wrongAnswerSelected = false;
 
@@ -52,7 +52,7 @@ public class DoorObstacleWithButton : Obstacle {
         anim = GetComponent<Animator>();
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         scoreManager = GameObject.Find("Score Manager").GetComponent<ScoreManager>();
-        successManager = GameObject.Find("Success Manager").GetComponent<SuccessManager>();
+        successAudioManager = GameObject.Find("Success Audio Manager").GetComponent<SuccessAudioManager>();
         // Call initialise here
         Initialise();
     }
@@ -190,12 +190,12 @@ public class DoorObstacleWithButton : Obstacle {
                 }
                 DeactivateAllButtons();
             }
-            successManager.PlaySuccessSound();
+            successAudioManager.PlaySuccessSound();
             return true;
         }
         if (!correctAnswers.Contains(text))
         {
-            successManager.PlayFailureSound();
+            successAudioManager.PlayFailureSound();
             wrongAnswerSelected = true;
         }
         return false;
