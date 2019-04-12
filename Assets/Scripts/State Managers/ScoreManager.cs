@@ -43,7 +43,7 @@ public class ScoreManager : MonoBehaviour {
         return currentScore;
     }
 
-    public void UpdateScore(int scoreStatus)
+    public void UpdateScore(int scoreStatus = 0)
     {
         UpdateMessage(scoreStatus);
         switch (scoreStatus)

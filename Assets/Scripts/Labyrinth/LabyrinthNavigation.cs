@@ -119,6 +119,24 @@ public class LabyrinthNavigation : MonoBehaviour {
         return IsValid(x, y) && !IsEmpty(x, y);
     }
 
+    // Testing purposes
+    public int GetNumberOfObstacles()
+    {
+        return numberOfObstacles;
+    }
+
+    // Testing purposes
+    public int GetPathLength()
+    {
+        return pathLength;
+    }
+
+    // Testing purposes
+    public List<WayPoint> GetWayPoints()
+    {
+        return wayPoints;
+    }
+
     private bool IsValid(int x, int y)
     {
         if(x >= labyrinthArray.GetLength(0) || y >= labyrinthArray.GetLength(1))
