@@ -5,9 +5,9 @@ using UnityEngine;
 public class FinalDoorObstacle : Obstacle {
 
     string obstacleInstruction = "Touch the characters to complete the initial given sequence.";
-    string completeText = "Push door to proceed";
+    string completeText = "Push the door to proceed";
     string obstacleQuestion = "Complete the whole sequence given initially.";
-    string startingInstruction = "Step on the footpad to start the puzzle.";
+    string startingInstruction = "Step on the floor tile to start the puzzle.";
 
     int numberOfButtonsOnDoor = 7; // Number of buttons on door
 

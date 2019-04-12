@@ -5,7 +5,7 @@ using UnityEngine;
 public class ThreeChooseOneObstacle : CognitiveObstacle
 {
 
-    public string instructionText = "Swipe your hand in the direction of the arrow of the right answers.";
+    public string instructionText = "Swipe your hand in the direction of the arrow of the correct answers.";
 
     [SerializeField]
     List<string> checkedAnswers;

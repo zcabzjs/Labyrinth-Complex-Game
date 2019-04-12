@@ -5,8 +5,8 @@ using UnityEngine;
 public class ReachAndTouchObstacle : CognitiveObstacle
 {
 
-    string completeText = "Swipe left with the right hand to proceed.";
-    string instructionText = "Touch the pads with the right answers";
+    string completeText = "Use your right hand to swipe left to proceed.";
+    string instructionText = "Touch the buttons with the right answers";
 
     UIManager uiManager;
 
@@ -58,7 +58,7 @@ public class ReachAndTouchObstacle : CognitiveObstacle
     public override void UpdateInstructionForObstacle()
     {
         //
-        uiManager.UpdateInstruction("Step on foot pad to solve puzzle.");
+        uiManager.UpdateInstruction("Step on the floor tile to start the puzzle.");
     }
 
     public override void ActivateObstacle()

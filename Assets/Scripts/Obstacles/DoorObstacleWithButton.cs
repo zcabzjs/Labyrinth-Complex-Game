@@ -5,9 +5,9 @@ using UnityEngine;
 public class DoorObstacleWithButton : Obstacle {
 
     string obstacleInstruction = "Touch the targets with the characters in the original sequence.";
-    string completeText = "Push door to proceed";
+    string completeText = "Push the door to proceed";
     string obstacleQuestion = "Which characters appeared in the original sequence?";
-    string startingInstruction = "Step on the footpad to start the puzzle.";
+    string startingInstruction = "Step on the floor tile to start the puzzle.";
 
     int numberOfButtonsOnDoor = 7; // Number of buttons on door
     int minimumNumberOfCorrectAnswers = 1; // Number of correct answers minimum
