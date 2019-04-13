@@ -64,13 +64,13 @@ public class PlayerMovement : MonoBehaviour {
                 UpdateRotationAndDesiredPosition("up");
                 timestamp = Time.time + timeBetweenMoves;
             }
-            else if ((moveWithKinect && gestureListener.IsLeftHandRaised()) || (moveWithMouseAndKeyboard && Input.GetKeyDown(KeyCode.A)))
+            else if ((moveWithKinect && gestureListener.IsLeanLeft()) || (moveWithMouseAndKeyboard && Input.GetKeyDown(KeyCode.A)))
             {
 
                 FixPlayerRotation("left");
                 timestamp = Time.time + timeBetweenMoves;
             }
-            else if ((moveWithKinect && gestureListener.IsRightHandRaised()) || (moveWithMouseAndKeyboard && Input.GetKeyDown(KeyCode.D)))
+            else if ((moveWithKinect && gestureListener.IsLeanRight()) || (moveWithMouseAndKeyboard && Input.GetKeyDown(KeyCode.D)))
             {
                 FixPlayerRotation("right");
                 timestamp = Time.time + timeBetweenMoves;

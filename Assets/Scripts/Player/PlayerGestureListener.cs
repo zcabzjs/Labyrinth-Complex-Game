@@ -27,6 +27,8 @@ public class PlayerGestureListener : MonoBehaviour, KinectGestures.GestureListen
     private bool isSquat = false;
     private bool isPush = false;
     private bool isRunning = false;
+    private bool leanLeft = false;
+    private bool leanRight = false;
     /// <summary>
     /// Gets the singleton PlayerGestureListener instance.
     /// </summary>
@@ -139,6 +141,26 @@ public class PlayerGestureListener : MonoBehaviour, KinectGestures.GestureListen
         return false;
     }
 
+    public bool IsLeanLeft()
+    {
+        if (leanLeft)
+        {
+            leanLeft = false;
+            return true;
+        }
+        return false;
+    }
+
+    public bool IsLeanRight()
+    {
+        if (leanRight)
+        {
+            leanRight = false;
+            return true;
+        }
+        return false;
+    }
+
     public void UserDetected(long userId, int userIndex)
     {
         // the gestures are allowed for the primary user only
@@ -152,6 +174,8 @@ public class PlayerGestureListener : MonoBehaviour, KinectGestures.GestureListen
         manager.DetectGesture(userId, KinectGestures.Gestures.SwipeUp);
         //		manager.DetectGesture(userId, KinectGestures.Gestures.LeanForward);
         //		manager.DetectGesture(userId, KinectGestures.Gestures.LeanBack);
+        manager.DetectGesture(userId, KinectGestures.Gestures.LeanLeft);
+        manager.DetectGesture(userId, KinectGestures.Gestures.LeanRight);
         manager.DetectGesture(userId, KinectGestures.Gestures.RaiseLeftHand);
         manager.DetectGesture(userId, KinectGestures.Gestures.RaiseRightHand);
         manager.DetectGesture(userId, KinectGestures.Gestures.Squat);
@@ -206,6 +230,18 @@ public class PlayerGestureListener : MonoBehaviour, KinectGestures.GestureListen
 
                 progressDisplayed = true;
                 progressGestureTime = Time.realtimeSinceStartup;
+
+                if(screenPos.z >= 25)
+                {
+                    if (gesture == KinectGestures.Gestures.LeanLeft)
+                    {
+                        leanLeft = true;
+                    }
+                    else if(gesture == KinectGestures.Gestures.LeanRight)
+                    {
+                        leanRight = true;
+                    }
+                }
             }
         }
         else if (gesture == KinectGestures.Gestures.Run && progress > 0.5f)
